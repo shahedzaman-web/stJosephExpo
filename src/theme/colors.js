@@ -1,0 +1,26 @@
+const colors = {
+  primary: '#2d2e6d',
+  primaryLight: '#d5d5e2',
+  secondary: '#4BAEC6',
+  gray: '#B9BBC4',
+  darkGary: '#8f8e9c',
+  white: '#FAFAFA',
+  whiteSecondary: '#fbfbfa',
+  danger:"#ff0000",
+  passBg: '#0aa873',
+  failBg: '#c70101',
+  bg0: '#c70101',
+  bg1: '#0286ce',
+  bg2: '#0aa873',
+  bg3: '#ffa609',
+  bg4: '#3ccf8a',
+  bg5: '#4baec6',
+  bg6: '#ff7e02',
+  bg7: '#ffc402',
+  bg8: '#fb4f71',
+  bg9: '#c6cccd',
+  bg10: '#f1d398',
+  bg12: '#e19ea6',
+};
+
+export default colors;

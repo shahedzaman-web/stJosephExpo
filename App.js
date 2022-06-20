@@ -1,20 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-
-export default function App() {
+import 'react-native-gesture-handler';
+import {NavigationContainer} from '@react-navigation/native';
+import React from 'react';
+import {StatusBar } from 'react-native';
+import {NativeBaseProvider} from 'native-base';
+import theme from './src/theme/appTheme';
+import Root from './src/navigation/RootNavigator';
+import Toast from 'react-native-toast-message';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
+import store, {persistor} from './src/store';
+import LoadingScreen from './src/view/LoadingScreen/LoadingScreen';
+// import { StatusBar } from 'expo-status-bar';
+import colors from './src/theme/colors';
+function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NativeBaseProvider theme={theme}>
+      <Provider store={store}>
+        <PersistGate loading={<LoadingScreen />} persistor={persistor}>
+        <StatusBar style="dark"  />
+          <NavigationContainer>
+            <Root />
+          </NavigationContainer>
+          <Toast />
+        </PersistGate>
+      </Provider>
+    </NativeBaseProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
