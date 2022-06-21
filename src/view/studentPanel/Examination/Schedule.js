@@ -79,7 +79,7 @@ const Schedule = () => {
             style={styles.dropdown}
             containerStyle={styles.shadow}
             data={examDropdownData}
-            placeholder="Select item"
+         
             maxHeight={200}
             labelField="label"
             valueField="value"

@@ -1,5 +1,4 @@
-import {Avatar, Box, HStack, Text, VStack} from 'native-base';
-
+import { Box, HStack, Text, VStack} from 'native-base';
 import React from 'react';
 import {
   heightPercentageToDP as hp,
@@ -10,22 +9,7 @@ import bgCardLighterColor from '../../../theme/bgCardLighterColor';
 import colors from '../../../theme/colors';
 const SubjectCard = ({item, index}) => {
   const {subjectName, subjectAuthor, subjectType} = item;
-  //   {
-  //     "_id": "6266c6bc5db85b7ab475244f",
-  //     "branchId": {
-  //         "_id": "624748040c772817c745b0dc",
-  //         "branchName": "St Joseph College"
-  //     },
-  //     "sessionId": {
-  //         "_id": "6262d2a254d98b7458d50b8b",
-  //         "sessionName": "2010-2011"
-  //     },
-  //     "subjectName": "Bangla",
-  //     "subjectCode": "250",
-  //     "subjectAuthor": "Rian Rashed",
-  //     "subjectType": "optional"
-  // },
-  // co
+
   return (
     <Box
       w={'94%'}

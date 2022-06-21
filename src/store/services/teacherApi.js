@@ -23,6 +23,17 @@ export const teacherApi = createApi({
         };
       },
     }),
+    getBranchWiseSubject: builder.query({
+      query: (data) => {
+        const { branchName, branchId, sessionId, sessionName } = data;
+        return {
+          url: `/branchWiseSubject?branchName=${branchName}&branchId=${branchId}&sessionName=${sessionName}&sessionId=${sessionId}`,
+          method: "GET",
+          validateStatus: (response, result) =>
+            response.status === 200 && !result.isError, // Our tricky API always returns a 200, but sets an `isError` property when there is an error.
+        };
+      },
+    }),
     getBranchWiseSession: builder.query({
       query: (data) => {
         const { branchId } = data;
@@ -38,7 +49,7 @@ export const teacherApi = createApi({
     getSessionWiseClass: builder.query({
       query: (data) => {
         const { sessionId } = data;
-        console.log({ data });
+        //  console.log({ data });
         return {
           url: `/sessionWiseClass/${sessionId}`,
           method: "GET",
@@ -50,7 +61,7 @@ export const teacherApi = createApi({
     getClassWiseSection: builder.query({
       query: (data) => {
         const { classId } = data;
-        console.log({ data });
+        //  console.log({ data });
         return {
           url: `/classWiseSection/${classId}`,
           method: "GET",
@@ -70,8 +81,9 @@ export const teacherApi = createApi({
           teacherId,
           sessionName,
         } = data;
+
         return {
-          url:`/getTeacherScheduleList?branchName=${branchName}&branchId=${branchId}&sessionName=${sessionName}&sessionId=${sessionId}&classId=${classId}&sectionId=${sectionId}&teacherId=${teacherId}`,
+          url: `/getTeacherScheduleList?branchName=${branchName}&branchId=${branchId}&sessionName=${sessionName}&sessionId=${sessionId}&classId=${classId}&sectionId=${sectionId}&teacherId=${teacherId}`,
           method: "GET",
           validateStatus: (response, result) =>
             response.status === 200 && !result.isError, // Our tricky API always returns a 200, but sets an `isError` property when there is an error.
@@ -80,7 +92,7 @@ export const teacherApi = createApi({
     }),
     getAllStudent: builder.query({
       query: (data) => {
-        const { branchId,  classId, sectionId, teacherId } = data;
+        const { branchId, classId, sectionId, teacherId } = data;
         return {
           url: `/getAllStudent?page=1&limit=25&search=&branchName${branchName}&sessionName${sessionName}&branchId${branchId}&classId${classId}&sectionId${sectionId}`,
           method: "GET",
@@ -102,9 +114,16 @@ export const teacherApi = createApi({
     }),
     getStudentAsFilter: builder.query({
       query: (data) => {
-        const { branchId, sessionId, classId, sectionId, teacherId } = data;
+        const {
+          branchId,
+          sessionId,
+          sessionName,
+          classId,
+          sectionId,
+          branchName,
+        } = data;
         return {
-          url: `/getStudentAsFilter?branchName${branchName}&sessionName${sessionName}&branchId${branchId}&sessionId=${sessionId}&classId${classId}&sectionId${sectionId}`,
+          url: `/getStudentAsFilter?branchName=${branchName}&sessionName=${sessionName}&branchId=${branchId}&sessionId=${sessionId}&classId=${classId}&sectionId=${sectionId}`,
           method: "GET",
           validateStatus: (response, result) =>
             response.status === 200 && !result.isError, // Our tricky API always returns a 200, but sets an `isError` property when there is an error.
@@ -135,27 +154,47 @@ export const teacherApi = createApi({
     }),
     getAllHall: builder.query({
       query: (data) => {
-        const { branchId, sessionId, classId, sectionId, teacherId } = data;
+        const { branchId } = data;
+        console.log({ data });
         return {
-          url: `/getAllHall?page=1&limit=25&search=&branchId${branchId}`,
+          url: `/getAllHall?page=1&limit=25&search=&branchId=${branchId}`,
           method: "GET",
           validateStatus: (response, result) =>
             response.status === 200 && !result.isError, // Our tricky API always returns a 200, but sets an `isError` property when there is an error.
         };
       },
     }),
-    getExamScheduleList: builder.query({
+    getExamScheduleListForTeacher: builder.query({
       query: (data) => {
-        const { branchName, branchId, sessionId, classId, sectionId } = data;
+        const {
+          branchName,
+          branchId,
+          sessionId,
+          classId,
+          sectionId,
+          sessionName,
+        } = data;
+
         return {
-          url: `/getExamScheduleList?branchName=${branchName}&branchId=${branchId}&sessionName=${sessionName}&sessionId=${sessionId}&classId=${classId}&sectionId=${sectionId}`,
+          url: `/getExamScheduleList?page=1&limit=25&branchName=${branchName}&branchId=${branchId}&sessionName=${sessionName}&sessionId=${sessionId}&classId=${classId}&sectionId=${sectionId}`,
           method: "GET",
           validateStatus: (response, result) =>
             response.status === 200 && !result.isError, // Our tricky API always returns a 200, but sets an `isError` property when there is an error.
         };
       },
     }),
-    getFilterWiseExamMarks: builder.query({
+    getBranchSessionWiseExamList: builder.query({
+      query: (data) => {
+        const { branchName, branchId, sessionId, sessionName } = data;
+        return {
+          url: `/getBranchSessionWiseExamList?branchName=${branchName}&branchId=${branchId}&sessionName=${sessionName}&sessionId=${sessionId}`,
+          method: "GET",
+          validateStatus: (response, result) =>
+            response.status === 200 && !result.isError, // Our tricky API always returns a 200, but sets an `isError` property when there is an error.
+        };
+      },
+    }),
+    getFilterWiseExamMarksForTeacher: builder.query({
       query: (data) => {
         const {
           branchName,
@@ -165,9 +204,11 @@ export const teacherApi = createApi({
           sectionId,
           examId,
           subjectId,
+          sessionName,
         } = data;
+
         return {
-          url: `/getFilterWiseExamMarks?branchName=${branchName}&branchId=${branchId}&sessionName=${sessionName}&sessionId=${sessionId}&classId=${classId}&sectionId=${sectionId}&examId=${examId}&subjectId=${subjectId}`,
+          url: `/getFilterWiseExamMarks?branchName=${branchName}&sessionName=${sessionName}&branchId=${branchId}&sessionId=${sessionId}&classId=${classId}&sectionId=${sectionId}&examId=${examId}&subjectId=${subjectId}`,
           method: "GET",
           validateStatus: (response, result) =>
             response.status === 200 && !result.isError, // Our tricky API always returns a 200, but sets an `isError` property when there is an error.
@@ -227,12 +268,14 @@ export const {
   useGetAllStudentQuery,
   useGetOneStudentQuery,
   useGetStudentAsFilterQuery,
+  useGetBranchSessionWiseExamListQuery,
   useAddStudentAttendanceMutation,
   useManageEmployeeInOutMutation,
   useGetAllHallQuery,
-  useGetExamScheduleListQuery,
-  useGetFilterWiseExamMarksQuery,
+  useGetExamScheduleListForTeacherQuery,
+  useGetFilterWiseExamMarksForTeacherQuery,
   useGetAllBookQuery,
   useGetHomeWorksQuery,
   useGetEmployeeEventQuery,
+  useGetBranchWiseSubjectQuery,
 } = teacherApi;

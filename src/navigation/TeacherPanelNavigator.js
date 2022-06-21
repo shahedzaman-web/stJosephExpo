@@ -16,10 +16,10 @@ import TeacherDrawerContains from './TeacherDrawerContains';
 import {Button} from 'native-base';
 import Examination from '../view/teachersPanel/Examination/Examination';
 import Attendance from '../view/teachersPanel/Attendance/Attendance';
-import ClassSchedule from '../view/teachersPanel/Academic/ClassSchedule/ClassSchedule';
-import ClassAndSection from '../view/teachersPanel/Academic/ClassAndSection/ClassAndSection';
-import Subject from '../view/teachersPanel/Academic/Subject/Subject';
-import TeacherSchedule from '../view/teachersPanel/Academic/TeacherSchedule/TeacherSchedule';
+// import ClassSchedule from '../view/teachersPanel/Academic/ClassSchedule/ClassSchedule';
+// import ClassAndSection from '../view/teachersPanel/Academic/ClassAndSection/ClassAndSection';
+// import Subject from '../view/teachersPanel/Academic/Subject/Subject';
+// import TeacherSchedule from '../view/teachersPanel/Academic/TeacherSchedule/TeacherSchedule';
 import LeaveApplication from '../view/teachersPanel/LeaveApplication/LeaveApplication';
 import Payroll from '../view/teachersPanel/Payroll/Payroll';
 import AttachmentsBook from '../view/teachersPanel/AttachmentsBook/AttachmentsBook';
@@ -130,19 +130,19 @@ const TeacherPanelNavigator = () => {
       />
       <TeacherAppStack.Screen name="Events" component={Events} />
       <TeacherAppStack.Screen name="HomeWork" component={HomeWork} />
-      <TeacherAppStack.Screen
+      {/* <TeacherAppStack.Screen
         name="ClassAndSection"
         component={ClassAndSection}
-      />
-      <TeacherAppStack.Screen name="Subject" component={Subject} />
-      <TeacherAppStack.Screen name="ClassSchedule" component={ClassSchedule} />
+      /> */}
+      {/* <TeacherAppStack.Screen name="Subject" component={Subject} />
+      <TeacherAppStack.Screen name="ClassSchedule" component={ClassSchedule} /> */}
       <TeacherAppStack.Screen name="AttachmentsBook" component={AttachmentsBook} />
       <TeacherAppStack.Screen name="LeaveApplication" component={LeaveApplication} />
       <TeacherAppStack.Screen name="Payroll" component={Payroll} />
-      <TeacherAppStack.Screen
+      {/* <TeacherAppStack.Screen
         name="TeacherSchedule"
         component={TeacherSchedule}
-      />
+      /> */}
     </TeacherAppStack.Navigator>
   );
 };

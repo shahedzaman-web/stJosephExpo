@@ -23,7 +23,6 @@ import {
 } from "react-native";
 
 import React from "react";
-import { Dropdown } from "react-native-element-dropdown";
 
 import colors from "../../theme/colors";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -49,9 +48,7 @@ const Login = ({ navigation }) => {
   const [password, setPassword] = React.useState("");
   const [deviceId, setDeviceId] = React.useState("");
   const [signinUser, { isLoading }] = useSigninUserMutation();
-  console.log({ branchData });
 
-  console.log({ selectBranch });
   const handleLogin = async () => {
     if (registerNumber === "" || password === "") {
       Toast.show({
@@ -83,9 +80,9 @@ const Login = ({ navigation }) => {
             isApp: true,
           };
         }
-        console.log({ payload });
+
         const res = await signinUser(payload);
-        console.log("res===================>", res);
+
         if (res?.data === [] || res === undefined || res.error) {
           Toast.show({
             type: "error",

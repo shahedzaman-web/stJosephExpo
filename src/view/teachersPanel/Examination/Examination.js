@@ -1,30 +1,98 @@
-import {  FlatList } from 'native-base';
-import React from 'react';
-import colors from '../../../theme/colors';
-import data from './data';
-import ExaminationCard from './ExaminationCard';
-import ExaminationHeader from './ExaminationHeader';
+import * as React from "react";
+import { Dimensions, Animated, Pressable } from "react-native";
+import { TabView, SceneMap } from "react-native-tab-view";
+import { Box, useColorModeValue } from "native-base";
 
-const Examination = () => {
+import Schedule from "./Schedule";
+import Marks from "./Marks";
+import colors from "../../../theme/colors";
+import ExamHall from "./ExamHall";
+
+const initialLayout = {
+  width: Dimensions.get("window").width,
+};
+const renderScene = SceneMap({
+  first: Schedule,
+  second: Marks,
+  third: ExamHall,
+});
+
+const TabComponent = () => {
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    {
+      key: "first",
+      title: "Schedule",
+    },
+    {
+      key: "second",
+      title: "Result",
+    },
+    {
+      key: "third",
+      title: "Exam Hall",
+    },
+  ]);
+
+  const renderTabBar = (props) => {
     return (
-        <FlatList
-        flex={1}
-     
-      mt={'6'}
-      px="3"
-      showsVerticalScrollIndicator={false}
-      bg={colors.primaryLight}
-      borderTopLeftRadius={'30'}
-      borderTopRightRadius={'30'}
-      w="100%"
-      data={data}
-      renderItem={({item, index}) => (
-        <ExaminationCard item={item} index={index} />
-      )}
-      keyExtractor={item => item.roll.toString()}
-      ListHeaderComponent={<ExaminationHeader />}
-    />
+      <Box flexDirection="row">
+        {props.navigationState.routes.map((route, i) => {
+          const color = index === i ? colors.primary : colors.darkGary;
+          const fontWeight = index === i ? "bold" : "normal";
+          const borderColor =
+            index === i
+              ? colors.primary
+              : useColorModeValue("coolGray.200", "gray.400");
+          return (
+            <Box
+              borderBottomWidth="3"
+              borderColor={borderColor}
+              flex={1}
+              alignItems="center"
+              p="3"
+              cursor="pointer"
+            >
+              <Pressable
+                alignItems="center"
+                width={"100%"}
+                onPress={() => {
+                  // //console.log(i);
+                  setIndex(i);
+                }}
+              >
+                <Animated.Text
+                  style={{
+                    color,
+                    fontSize: 16,
+                    fontWeight,
+                  }}
+                >
+                  {route.title}
+                </Animated.Text>
+              </Pressable>
+            </Box>
+          );
+        })}
+      </Box>
     );
+  };
+
+  return (
+    <TabView
+      navigationState={{
+        index,
+        routes,
+      }}
+      renderScene={renderScene}
+      renderTabBar={renderTabBar}
+      onIndexChange={setIndex}
+      initialLayout={initialLayout}
+    />
+  );
 };
 
+const Examination = () => {
+  return <TabComponent />;
+};
 export default Examination;
