@@ -4,10 +4,10 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import colors from '../theme/colors';
 import NavigationAppHeader from './NavigationAppHeader';
-import Profile from '../view/teachersPanel/Profile/Profile';
 
 import { MaterialIcons,Ionicons } from '@expo/vector-icons';
 
+import Profile from '../view/teachersPanel/Profile/Profile';
 import Academic from '../view/teachersPanel/Academic/Academic';
 import StudentDetails from '../view/teachersPanel/StudentDetails/StudentDetails';
 import HomeWork from '../view/teachersPanel/HomeWork/HomeWork';
@@ -16,13 +16,10 @@ import TeacherDrawerContains from './TeacherDrawerContains';
 import {Button} from 'native-base';
 import Examination from '../view/teachersPanel/Examination/Examination';
 import Attendance from '../view/teachersPanel/Attendance/Attendance';
-// import ClassSchedule from '../view/teachersPanel/Academic/ClassSchedule/ClassSchedule';
-// import ClassAndSection from '../view/teachersPanel/Academic/ClassAndSection/ClassAndSection';
-// import Subject from '../view/teachersPanel/Academic/Subject/Subject';
-// import TeacherSchedule from '../view/teachersPanel/Academic/TeacherSchedule/TeacherSchedule';
 import LeaveApplication from '../view/teachersPanel/LeaveApplication/LeaveApplication';
 import Payroll from '../view/teachersPanel/Payroll/Payroll';
 import AttachmentsBook from '../view/teachersPanel/AttachmentsBook/AttachmentsBook';
+import AttendanceReport from '../view/teachersPanel/AttendanceReport/AttendanceReport';
 
 const TeacherAppStack = createNativeStackNavigator();
 const TeacherDrawerStack = createDrawerNavigator();
@@ -130,19 +127,12 @@ const TeacherPanelNavigator = () => {
       />
       <TeacherAppStack.Screen name="Events" component={Events} />
       <TeacherAppStack.Screen name="HomeWork" component={HomeWork} />
-      {/* <TeacherAppStack.Screen
-        name="ClassAndSection"
-        component={ClassAndSection}
-      /> */}
-      {/* <TeacherAppStack.Screen name="Subject" component={Subject} />
-      <TeacherAppStack.Screen name="ClassSchedule" component={ClassSchedule} /> */}
+
       <TeacherAppStack.Screen name="AttachmentsBook" component={AttachmentsBook} />
       <TeacherAppStack.Screen name="LeaveApplication" component={LeaveApplication} />
       <TeacherAppStack.Screen name="Payroll" component={Payroll} />
-      {/* <TeacherAppStack.Screen
-        name="TeacherSchedule"
-        component={TeacherSchedule}
-      /> */}
+      <TeacherAppStack.Screen name="AttendanceReport" component={AttendanceReport} />
+
     </TeacherAppStack.Navigator>
   );
 };

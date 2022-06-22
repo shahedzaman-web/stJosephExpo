@@ -9,8 +9,8 @@ import {
 import {Dropdown} from 'react-native-element-dropdown';
 
 import {
-  useGetBranchSessionWiseExamListQuery,
-  useGetBranchWiseSubjectQuery,
+  useGetExamListQuery,
+  useSubjectQuery,
   useGetFilterWiseExamMarksQuery,
 } from '../../../store/services/studentApi';
 import colors from '../../../theme/colors';
@@ -24,13 +24,13 @@ const Marks = () => {
   const [examDropdownData, setExamDropdownData] = React.useState();
   const [resultData, setResultData] = React.useState([]);
   const userInfo = useSelector(state => state.auth.userInfo);
-  const {data, isLoading} = useGetBranchWiseSubjectQuery({
+  const {data, isLoading} = useSubjectQuery({
     branchName: userInfo.branch.branchName,
     branchId: userInfo.branch._id,
     sessionName: userInfo.session.sessionName,
     sessionId: userInfo.session._id,
   });
-  const res = useGetBranchSessionWiseExamListQuery({
+  const res = useGetExamListQuery({
     branchName: userInfo.branch.branchName,
     branchId: userInfo.branch._id,
     sessionName: userInfo.session.sessionName,

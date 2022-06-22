@@ -1,37 +1,44 @@
 import React from "react";
-import { Box, Select, CheckIcon, HStack, Text, Skeleton } from "native-base";
+import {
+  Box,
+  Select,
+  CheckIcon,
+  HStack,
+  Text,
+  Skeleton,
+  ScrollView,
+} from "native-base";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import colors from "../../../theme/colors";
 import {
-  useGetBranchSessionWiseExamListQuery,
   useGetBranchWiseSessionQuery,
-  useGetBranchWiseSubjectQuery,
   useGetClassWiseSectionQuery,
-  useGetExamScheduleListForTeacherQuery,
-  useGetFilterWiseExamMarksForTeacherQuery,
   useGetSessionWiseClassQuery,
+  useGetStudentAttendanceForAdminQuery,
 } from "../../../store/services/teacherApi";
+import { Calendar } from "react-native-calendars";
+import moment from "moment";
 import { useSelector } from "react-redux";
-export default function ExamHeader({
-  setExamSchedule,
-  setExamMarksData,
-  examSchedule,
-  type,
-}) {
+import getMarkedDates from "../../../utils/getMarkedDates";
+import StudentPieChartScreen from "./StudentPieChartScreen";
+export default function StudentReport() {
   const [selectedSession, setSelectedSession] = React.useState("");
   const [selectedClass, setSelectedClass] = React.useState("");
   const [selectedSection, setSelectedSection] = React.useState("");
+  const [selectedStudent, setSelectedStudent] = React.useState("");
+  const [attendanceData, setAttendanceData] = React.useState([]);
+  const [selectedStudentData, setSelectedStudentData] = React.useState([]);
   const [sessionName, setSessionName] = React.useState("");
   const [sessionData, setSessionData] = React.useState([]);
   const [classData, setClassData] = React.useState([]);
   const [sectionData, setSectionData] = React.useState([]);
-  const [selectedExam, setSelectedExam] = React.useState("");
-  const [examListData, setExamListData] = React.useState([]);
-  const [subjectData, setSubjectData] = React.useState([]);
-  const [selectedSubject, setSelectedSubject] = React.useState("");
+  const [selectedMonth, setSelectedMonth] = React.useState(
+    moment(new Date()).format("YYYY-MM")
+  );
+  const [pieData, setPieData] = React.useState([]);
   const userInfo = useSelector((state) => state.auth.userInfo);
   const branchId = userInfo.branch._id;
   const getBranchWiseSession = useGetBranchWiseSessionQuery({
@@ -43,42 +50,17 @@ export default function ExamHeader({
   const getClassWiseSection = useGetClassWiseSectionQuery({
     classId: selectedClass,
   });
-  const getExamScheduleListForTeacher = useGetExamScheduleListForTeacherQuery({
+
+  const { data, isLoading } = useGetStudentAttendanceForAdminQuery({
     branchName: userInfo.branch.branchName,
     branchId: userInfo.branch._id,
+    sessionName: sessionName,
     sessionId: selectedSession,
     classId: selectedClass,
     sectionId: selectedSection,
-    teacherId: userInfo._id,
-    sessionName: sessionName,
+    month: selectedMonth.slice(0, 7),
   });
-  const getBranchSessionWiseExamList = useGetBranchSessionWiseExamListQuery({
-    branchName: userInfo.branch.branchName,
-    branchId: userInfo.branch._id,
-    sessionId: selectedSession,
-    sessionName: sessionName,
-  });
-  const getBranchWiseSubject = useGetBranchWiseSubjectQuery({
-    branchName: userInfo.branch.branchName,
-    branchId: userInfo.branch._id,
-    sessionId: selectedSession,
-    sessionName: sessionName,
-  });
-  const getFilterWiseExamMarks = useGetFilterWiseExamMarksForTeacherQuery({
-    branchName: userInfo.branch.branchName,
-    branchId: userInfo.branch._id,
-    sessionId: selectedSession,
-    sessionName: sessionName,
-    classId: selectedClass,
-    sectionId: selectedSection,
-    examId: selectedExam,
-    subjectId: selectedSubject,
-  });
-  console.log(
-    "getFilterWiseExamMarks=======================================>",
-    getFilterWiseExamMarks?.data,
-    getFilterWiseExamMarks?.error
-  );
+
   React.useEffect(() => {
     if (getBranchWiseSession?.data !== undefined) {
       setSessionData(getBranchWiseSession?.data?.data);
@@ -94,28 +76,7 @@ export default function ExamHeader({
       setSectionData(getClassWiseSection?.data?.data);
     }
   }, [getClassWiseSection?.data]);
-  React.useEffect(() => {
-    if (
-      getExamScheduleListForTeacher?.data !== undefined &&
-      getExamScheduleListForTeacher?.data[0]?.data[0]?.examSchedule !==
-        undefined &&
-      type !== "Marks"
-    ) {
-      setExamSchedule(
-        getExamScheduleListForTeacher?.data[0]?.data[0]?.examSchedule
-      );
-    }
-  }, [getExamScheduleListForTeacher?.data]);
-  React.useEffect(() => {
-    if (getBranchSessionWiseExamList?.data !== undefined) {
-      setExamListData(getBranchSessionWiseExamList?.data);
-    }
-  }, [getBranchSessionWiseExamList?.data]);
-  React.useEffect(() => {
-    if (getBranchWiseSubject?.data !== undefined) {
-      setSubjectData(getBranchWiseSubject?.data?.data);
-    }
-  }, [getBranchWiseSubject?.data]);
+
   const getSessionName = React.useCallback(() => {
     if (selectedSession !== "") {
       const res = sessionData.filter((item) => item._id === selectedSession)[0]
@@ -128,17 +89,22 @@ export default function ExamHeader({
     getSessionName();
   }, [getSessionName]);
   React.useEffect(() => {
-    if (getFilterWiseExamMarks?.data !== undefined && type === "Marks") {
-      console.log(
-        "getFilterWiseExamMarks=======================================>",
-        getFilterWiseExamMarks?.data[0]?.marks
-      );
-      setExamMarksData(getFilterWiseExamMarks?.data[0]?.marks);
+    if (data !== undefined) {
+      setAttendanceData(data);
     }
-  }, [getFilterWiseExamMarks?.data]);
+  }, [data]);
+  React.useEffect(() => {
+    if (selectedStudent !== "") {
+      const res = attendanceData.filter((item) => item._id === selectedStudent);
+      if (res[0]?.data?.length > 0) {
+        setPieData(res[0]);
+        setSelectedStudentData(getMarkedDates(res[0].data));
+      }
+    }
+  }, [selectedStudent]);
 
   return (
-    <Box>
+    <ScrollView flex="1">
       <Box w={wp("100%")} justifyContent="center" alignItems="center">
         <HStack
           h={hp("8%")}
@@ -219,7 +185,7 @@ export default function ExamHeader({
           <Text bold fontSize={"lg"} color={colors.primary}>
             Select Section
           </Text>
-          {getExamScheduleListForTeacher?.isLoading ? (
+          {getClassWiseSection?.isLoading ? (
             <Skeleton style={{ width: wp("50%") }} text />
           ) : (
             <Select
@@ -245,81 +211,56 @@ export default function ExamHeader({
             </Select>
           )}
         </HStack>
-        {type === "Marks" && (
-          <>
-            <HStack
-              h={hp("8%")}
-              w={"90%"}
-              alignItems={"center"}
-              justifyContent={"space-between"}
+        <HStack
+          h={hp("8%")}
+          w={"90%"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
+          <Text bold fontSize={"lg"} color={colors.primary}>
+            Select Student
+          </Text>
+          {isLoading ? (
+            <Skeleton style={{ width: wp("50%") }} text />
+          ) : (
+            <Select
+              borderColor={colors.primary}
+              selectedValue={selectedStudent}
+              minWidth="200"
+              accessibilityLabel="Choose Student"
+              placeholder="Choose Student"
+              _selectedItem={{
+                bg: "teal.600",
+                endIcon: <CheckIcon size="5" />,
+              }}
+              mt={1}
+              onValueChange={(itemValue) => setSelectedStudent(itemValue)}
             >
-              <Text bold fontSize={"lg"} color={colors.primary}>
-                Select Exam
-              </Text>
-              {getClassWiseSection?.isLoading ? (
-                <Skeleton style={{ width: wp("50%") }} text />
-              ) : (
-                <Select
-                  borderColor={colors.primary}
-                  selectedValue={selectedExam}
-                  minWidth="200"
-                  accessibilityLabel="Choose Exam"
-                  placeholder="Choose Exam"
-                  _selectedItem={{
-                    bg: "teal.600",
-                    endIcon: <CheckIcon size="5" />,
-                  }}
-                  mt={1}
-                  onValueChange={(itemValue) => setSelectedExam(itemValue)}
-                >
-                  {examListData?.map((item) => (
-                    <Select.Item
-                      key={item._id}
-                      value={item._id}
-                      label={item.name}
-                    />
-                  ))}
-                </Select>
-              )}
-            </HStack>
-            <HStack
-              h={hp("8%")}
-              w={"90%"}
-              alignItems={"center"}
-              justifyContent={"space-between"}
-            >
-              <Text bold fontSize={"lg"} color={colors.primary}>
-                Select Subject
-              </Text>
-              {getBranchWiseSubject?.isLoading ? (
-                <Skeleton style={{ width: wp("50%") }} text />
-              ) : (
-                <Select
-                  borderColor={colors.primary}
-                  selectedValue={selectedSubject}
-                  minWidth="200"
-                  accessibilityLabel="Choose Subject"
-                  placeholder="Choose Subject"
-                  _selectedItem={{
-                    bg: "teal.600",
-                    endIcon: <CheckIcon size="5" />,
-                  }}
-                  mt={1}
-                  onValueChange={(itemValue) => setSelectedSubject(itemValue)}
-                >
-                  {subjectData?.map((item) => (
-                    <Select.Item
-                      key={item._id}
-                      value={item._id}
-                      label={item.subjectName}
-                    />
-                  ))}
-                </Select>
-              )}
-            </HStack>
-          </>
+              {attendanceData.map((item) => (
+                <Select.Item
+                  key={item._id}
+                  value={item._id}
+                  label={`${item.firstName} ${item.lastName}`}
+                />
+              ))}
+            </Select>
+          )}
+        </HStack>
+        {isLoading ? (
+          <Skeleton style={{ width: wp("100%") }} text />
+        ) : (
+          <Box w="100%" my="3">
+            <Calendar
+              onMonthChange={(month) => {
+                setSelectedMonth(month.dateString);
+              }}
+              markingType={"period"}
+              markedDates={selectedStudentData}
+            />
+          </Box>
         )}
+        <StudentPieChartScreen isLoading={isLoading} data={pieData} />
       </Box>
-    </Box>
+    </ScrollView>
   );
 }

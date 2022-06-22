@@ -2,8 +2,6 @@
 import {authApi} from './services/authApi';
 import {authSlice} from './slices/authSlice';
 import {configureStore} from '@reduxjs/toolkit';
-
-
 import {
   persistStore,
   persistReducer,
@@ -18,8 +16,8 @@ import {
 import rootReducers from './reducers/rootReducers';
 import {setupListeners} from '@reduxjs/toolkit/dist/query';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {studentApi} from './services/studentApi';
-import { teacherApi } from './services/teacherApi';
+import { appApi } from './services/appApi';
+
 const persistConfig = {
   key: '@rootStorage',
   version: 1,
@@ -37,7 +35,7 @@ const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(authApi.middleware, studentApi.middleware,teacherApi.middleware),
+    }).concat(authApi.middleware,appApi.middleware),
 });
 
 setupListeners(store.dispatch);

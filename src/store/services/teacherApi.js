@@ -1,17 +1,6 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { appApi } from "./appApi";
 
-export const teacherApi = createApi({
-  baseQuery: fetchBaseQuery({
-    reducerPath: "teacherApi",
-    baseUrl: "http://154.12.229.20:4000/api",
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-    timeout: 30000,
-    setTimeout: (timeout) => {
-      return timeout;
-    },
-  }),
+const teacherApi = appApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllBranch: builder.query({
       query: () => {
@@ -141,6 +130,25 @@ export const teacherApi = createApi({
         };
       },
     }),
+    getStudentAttendanceForAdmin: builder.query({
+      query: (data) => {
+        const {
+          branchName,
+          branchId,
+          sessionName,
+          sessionId,
+          classId,
+          sectionId,
+          month,
+        } = data;
+        return {
+          url: `/getStudentAttendanceForAdmin?branchName=${branchName}&branchId=${branchId}&sessionName=${sessionName}&sessionId=${sessionId}&classId=${classId}&sectionId=${sectionId}&month=${month}`,
+          method: "GET",
+          validateStatus: (response, result) =>
+            response.status === 200 && !result.isError, // Our tricky API always returns a 200, but sets an `isError` property when there is an error.
+        };
+      },
+    }),
     manageEmployeeInOut: builder.mutation({
       query: (data) => {
         return {
@@ -246,7 +254,7 @@ export const teacherApi = createApi({
         };
       },
     }),
-    getEmployeeEvent: builder.query({
+    getSelfEvent: builder.query({
       query: (data) => {
         const { branchId, role } = data;
         return {
@@ -257,7 +265,26 @@ export const teacherApi = createApi({
         };
       },
     }),
+    getAttendance: builder.query({
+      query: (data) => {
+        const {
+          branchName,
+          sessionName,
+          sessionId,
+          branchId,
+          employeeId,
+          month,
+        } = data;
+        return {
+          url: `/getEmployeeAttendanceForAdmin?branchName=${branchName}&sessionName=${sessionName}&sessionId=${sessionId}&branchId=${branchId}&employeeId=${employeeId}&month=${month}`,
+          method: "GET",
+          validateStatus: (response, result) =>
+            response.status === 200 && !result.isError, // Our tricky API always returns a 200, but sets an `isError` property when there is an error.
+        };
+      },
+    }),
   }),
+  overrideExisting: false,
 });
 export const {
   useGetAllBranchQuery,
@@ -276,6 +303,8 @@ export const {
   useGetFilterWiseExamMarksForTeacherQuery,
   useGetAllBookQuery,
   useGetHomeWorksQuery,
-  useGetEmployeeEventQuery,
+  useSelfEventQuery,
   useGetBranchWiseSubjectQuery,
+  useGetStudentAttendanceForAdminQuery,
+  useGetAttendanceQuery,
 } = teacherApi;

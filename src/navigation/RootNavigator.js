@@ -9,7 +9,7 @@ import AppLoading from 'expo-app-loading';
 
 
 import {useSelector} from 'react-redux';
-import {useGetAllBranchQuery} from '../store/services/studentApi';
+import {useGetAllBranchForStudentQuery} from '../store/services/studentApi';
 const RootStack = createNativeStackNavigator();
 const AppStack = createNativeStackNavigator();
 
@@ -45,7 +45,7 @@ const RootNavigator = () => {
 };
 
 function Root() {
-  const {isLoading} = useGetAllBranchQuery();
+  const {isLoading} = useGetAllBranchForStudentQuery();
   let [fontsLoaded] = useFonts({
     ProximaNova: require("../../assets/fonts/ProximaNova.otf"),
     Helvetica: require("../../assets/fonts/Helvetica.ttf"),

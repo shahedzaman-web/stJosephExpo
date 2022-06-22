@@ -2,7 +2,7 @@ import React from "react";
 import { Box, FlatList } from "native-base";
 import ExamHeader from "./ExamHeader";
 import colors from "../../../theme/colors";
-import ScheduleCard from "../../studentPanel/Examination/ScheduleCard";
+import ScheduleCard from "./ScheduleCard";
 
 export default function Schedule() {
   const [examSchedule, setExamSchedule] = React.useState([]);

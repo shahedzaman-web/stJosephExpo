@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {studentApi} from '../services/studentApi';
+import { appApi } from '../services/appApi';
 
 const initialState = {
   branchData: [],
@@ -10,7 +10,7 @@ export const branchDataSlice = createSlice({
 
   extraReducers: builder => {
     builder.addMatcher(
-      studentApi.endpoints.getAllBranch.matchFulfilled,
+      appApi.endpoints.getAllBranch.matchFulfilled,
 
       (state, {payload}) => {
         const res = payload.data.map(item => {
