@@ -10,7 +10,7 @@ export const branchDataSlice = createSlice({
 
   extraReducers: builder => {
     builder.addMatcher(
-      appApi.endpoints.getAllBranch.matchFulfilled,
+      appApi.endpoints.getAllBranchForStudent.matchFulfilled,
 
       (state, {payload}) => {
         const res = payload.data.map(item => {

@@ -1,8 +1,6 @@
 import {
   Box,
   HStack,
-  Icon,
-  Input,
   Radio,
   Stack,
   Text,
@@ -16,12 +14,22 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import colors from "../../../theme/colors";
-const AttendanceCard = ({ item, index }) => {
-  console.log({ item });
+
+const AttendanceCard = ({
+  item,
+  index,
+  setAttendanceDetails,
+  attendanceDetails,
+}) => {
   const { firstName, lastName, roll, regNo } = item;
-  const [selected, setSelected] = React.useState("present");
-  const [setREmarks, setSetREmarks] = React.useState("");
+  const [selected, setSelected] = React.useState(null);
+
+  const handleChange = React.useCallback((nextValue) => {
+    setSelected(nextValue);
+    const rowsInput = [...attendanceDetails];
+    rowsInput[index].status = nextValue;
+    setAttendanceDetails(rowsInput);
+  })
   return (
     <Box
       my="3"
@@ -53,7 +61,7 @@ const AttendanceCard = ({ item, index }) => {
           accessibilityLabel="favorite number"
           value={selected}
           onChange={(nextValue) => {
-            setSelected(nextValue);
+            handleChange(nextValue);
           }}
         >
           <Stack direction="row" alignItems="center" space={4}>
@@ -66,7 +74,7 @@ const AttendanceCard = ({ item, index }) => {
           </Stack>
         </Radio.Group>
       </HStack>
-      <HStack alignItems={"center"}
+      {/* <HStack alignItems={"center"}
       justifyContent={"space-between"}
       px="2"
       >
@@ -79,10 +87,9 @@ const AttendanceCard = ({ item, index }) => {
         borderColor={colors.primary}
         placeholder="Remarks"
       />
-      </HStack>
-     
+      </HStack> */}
     </Box>
   );
 };
 
-export default AttendanceCard;
+export default  React.memo(AttendanceCard);

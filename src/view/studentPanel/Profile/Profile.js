@@ -40,7 +40,7 @@ const Profile = () => {
               uri: baseURL + "/studentProfile/" + userInfo.profilePhoto,
             }}
           >
-            Profile Photo
+            <Text fontSize="sm" color={colors.white}>Profile Photo</Text>
           </Avatar>
           <VStack>
             <HStack
@@ -63,7 +63,7 @@ const Profile = () => {
                 Name:
               </Text>
               <Text bold color={colors.primary} fontSize="lg">
-                {userInfo.firstName} {userInfo.lastName}
+                {userInfo?.firstName} {userInfo?.lastName}
               </Text>
             </HStack>
 
@@ -83,7 +83,7 @@ const Profile = () => {
                 Class:{" "}
               </Text>
               <Text bold color={colors.primary} fontSize="lg">
-                {userInfo.class.className}
+                {userInfo?.class?.className}
               </Text>
             </HStack>
 
@@ -104,7 +104,7 @@ const Profile = () => {
                 Section:{" "}
               </Text>
               <Text bold color={colors.primary} fontSize="lg">
-                {userInfo.section.sectionName}
+                {userInfo?.section?.sectionName}
               </Text>
             </HStack>
             <HStack
@@ -127,7 +127,7 @@ const Profile = () => {
                 Roll:{" "}
               </Text>
               <Text bold color={colors.primary} fontSize="lg">
-                {userInfo.roll}
+                {userInfo?.roll}
               </Text>
             </HStack>
             <HStack
@@ -150,7 +150,7 @@ const Profile = () => {
                 Reg. Number:{" "}
               </Text>
               <Text bold color={colors.primary} fontSize="lg">
-                {userInfo.regNo}
+                {userInfo?.regNo}
               </Text>
             </HStack>
 
@@ -174,7 +174,7 @@ const Profile = () => {
                 Group:{" "}
               </Text>
               <Text bold color={colors.primary} fontSize="lg">
-                {userInfo.group.groupName}
+                {userInfo?.group?.groupName}
               </Text>
             </HStack>
             <HStack
@@ -197,7 +197,7 @@ const Profile = () => {
                 Session Name:{" "}
               </Text>
               <Text bold color={colors.primary} fontSize="lg">
-                {userInfo.session.sessionName}
+                {userInfo?.session?.sessionName}
               </Text>
             </HStack>
         
@@ -221,10 +221,10 @@ const Profile = () => {
                 Branch Name:{" "}
               </Text>
               <Text bold color={colors.primary} fontSize="lg">
-                {userInfo.branch.branchName}
+                {userInfo?.branch?.branchName}
               </Text>
             </HStack>
-            <Button 
+            {/* <Button 
             alignSelf={"center"}
             bg={colors.primary}
             color={colors.white}
@@ -238,7 +238,7 @@ const Profile = () => {
               <Text bold color={colors.white}>
                 Edit Profile
               </Text>
-            </Button>
+            </Button> */}
           </VStack>
         </Center>
       </ZStack>

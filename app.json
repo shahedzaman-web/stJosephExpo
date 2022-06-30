@@ -15,8 +15,6 @@
       "backgroundColor": "#2d2e6d",
       "translucent": false
     },
-  
-
     "updates": {
       "fallbackToCacheTimeout": 0
     },

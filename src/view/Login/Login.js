@@ -10,7 +10,6 @@ import {
   Stack,
   Text,
   VStack,
-  Skeleton,
   Select,
   CheckIcon,
 } from "native-base";
@@ -19,14 +18,10 @@ import {
   StyleSheet,
   Keyboard,
   TouchableWithoutFeedback,
-  Alert,
 } from "react-native";
-
 import React from "react";
-
 import colors from "../../theme/colors";
 import { MaterialIcons } from "@expo/vector-icons";
-
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -47,8 +42,8 @@ const Login = ({ navigation }) => {
   const [registerNumber, setRegisterNumber] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [deviceId, setDeviceId] = React.useState("");
-  const [signinUser, { isLoading }] = useSigninUserMutation();
-
+  const [signinUser, ] = useSigninUserMutation();
+  const [isLoading, setIsLoading] = React.useState(false);
   const handleLogin = async () => {
     if (registerNumber === "" || password === "") {
       Toast.show({
@@ -57,9 +52,10 @@ const Login = ({ navigation }) => {
       });
     } else {
       try {
+        setIsLoading(true);
         let payload;
-        let branchName = branchData.find((item) =>  item.value === selectBranch);
-        console.log({branchName});
+        let branchName = branchData.find((item) => item.value === selectBranch);
+        console.log({ branchName });
         if (value === "student") {
           payload = {
             branchName: branchName.label,
@@ -72,7 +68,6 @@ const Login = ({ navigation }) => {
           };
         } else {
           payload = {
-           
             userType: value,
             userId: registerNumber,
             userPassword: password,
@@ -86,8 +81,9 @@ const Login = ({ navigation }) => {
         if (res?.data === [] || res === undefined || res.error) {
           Toast.show({
             type: "error",
-            text1: "Invalid Credentials!",
+            text1: "Invalid Register / Password!",
           });
+          setIsLoading(false);
         } else {
           Toast.show({
             type: "success",
@@ -96,12 +92,14 @@ const Login = ({ navigation }) => {
           navigation.replace("App", {
             screen: value == "student" ? "Student" : "Teacher",
           });
+          setIsLoading(false);
         }
       } catch (e) {
         Toast.show({
           type: "error",
           text1: e,
         });
+        setIsLoading(false);
         console.log(e);
       }
     }
@@ -193,8 +191,8 @@ const Login = ({ navigation }) => {
                 <Select
                   selectedValue={selectBranch}
                   minWidth="180"
-                  accessibilityLabel="Choose Service"
-                  placeholder="Choose Service"
+                  accessibilityLabel="Choose Branch"
+                  placeholder="Choose Branch"
                   _selectedItem={{
                     bg: "teal.600",
                     endIcon: <CheckIcon size="5" />,
@@ -210,8 +208,6 @@ const Login = ({ navigation }) => {
                     />
                   ))}
                 </Select>
-
-        
               </HStack>
             )}
             <Input

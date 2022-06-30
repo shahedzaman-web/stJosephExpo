@@ -29,7 +29,7 @@ const ScheduleCard = ({item, index}) => {
   return (
     <Box
       w={wp('94%')}
-      h={hp('25%')}
+      h={hp('32%')}
       my={'2'}
       borderRadius={'6'}
       p={'2'}
@@ -56,27 +56,27 @@ const ScheduleCard = ({item, index}) => {
         </HStack>
       </HStack>
 
-      <HStack my="1" justifyContent={'space-between'} alignItems="center">
+      <VStack my="1" >
         <Text bold color={colors.gray}>
           Written Full Marks : {writtenFullMark}
         </Text>
         <Text bold color={colors.gray}>
           Written Passing Marks : {writtenPassMark}
         </Text>
-      </HStack>
-      <HStack my="1" justifyContent={'space-between'} alignItems="center">
+      </VStack>
+      <VStack my="1" >
         <Text bold color={colors.gray}>
           Practical Full Marks : {practicalFullMark}
         </Text>
         <Text bold color={colors.gray}>
           Practical Passing Marks : {practicalPassMark}
         </Text>
-      </HStack>
-      <HStack justifyContent={'space-between'} alignItems={'center'}>
+      </VStack>
+      <VStack my="1" >
         <Text bold color={colors.gray}>
           INVIGILATOR: {employeeName}
         </Text>
-      </HStack>
+      </VStack>
       <Text bold color={colors.gray}>
         Hall: {hall}
       </Text>

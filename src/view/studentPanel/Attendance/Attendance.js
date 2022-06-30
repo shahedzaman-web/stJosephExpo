@@ -33,14 +33,14 @@ const Attendance = () => {
 
   if (isFetching) {
     return (
-      <Center>
-        <Skeleton w="90%" h="70%" />
-        <HStack m="2">
+      <Center mt="1">
+        <Skeleton w="90%" h="50%" />
+        <HStack m="2" alignItems={"center"} justifyContent="space-between">
           <Skeleton w={wp('40%')} size="20" rounded="full" />
-          <VStack w={wp('60%')}>
-            <Skeleton h="10%" w={wp('40%')} my="2" />
-            <Skeleton h="10%" w={wp('40%')} my="2" />
-            <Skeleton h="10%" w={wp('40%')} my="2" />
+          <VStack ml="4" w={wp('60%')}>
+            <Skeleton h="10%" w={wp('60%')} my="2" />
+            <Skeleton h="10%" w={wp('60%')} my="2" />
+            <Skeleton h="10%" w={wp('60%')} my="2" />
           </VStack>
         </HStack>
       </Center>

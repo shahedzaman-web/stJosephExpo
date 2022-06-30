@@ -305,7 +305,7 @@ const TeacherDrawerContains = () => {
         >
           Events
         </Button>
-        <Button
+        {/* <Button
           onPress={() => navigation.navigate("Payroll")}
           _text={{
             fontSize: "md",
@@ -323,7 +323,7 @@ const TeacherDrawerContains = () => {
           }
         >
           Payroll
-        </Button>
+        </Button> */}
         <Button
           onPress={handleLogout}
           _text={{

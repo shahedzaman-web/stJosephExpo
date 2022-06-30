@@ -14,8 +14,6 @@ import {
 import React from 'react';
 import colors from '../theme/colors';
 import { AntDesign,FontAwesome,FontAwesome5,Feather,MaterialIcons,Ionicons } from '@expo/vector-icons';
-
-
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -72,7 +70,7 @@ const StudentDrawerContains = () => {
               source={{
                 uri: baseURL + '/studentProfile/' + userInfo.profilePhoto,
               }}>
-                {userInfo.firstName} {userInfo.lastName}
+               <Text fontSize={"2xs"}> {userInfo.firstName} {userInfo.lastName}</Text>
             </Avatar>
             <Box w="70%">
               <Text color={colors.primary} fontSize="md" fontWeight="bold">
@@ -111,7 +109,7 @@ const StudentDrawerContains = () => {
           }>
           Profile
         </Button>
-        <Button
+        {/* <Button
           onPress={() => navigation.navigate('TeacherList')}
           _text={{
             fontSize: 'md',
@@ -128,7 +126,7 @@ const StudentDrawerContains = () => {
             />
           }>
           Teacher
-        </Button>
+        </Button> */}
         <Pressable
           variant={'unstyled'}
           w="100%"
@@ -196,7 +194,7 @@ const StudentDrawerContains = () => {
             )}
           </VStack>
         </Pressable>
-        <Button
+        {/* <Button
           onPress={() => navigation.navigate('LeaveApplication')}
           _text={{
             fontSize: 'md',
@@ -213,7 +211,7 @@ const StudentDrawerContains = () => {
             />
           }>
           Leave Application
-        </Button>
+        </Button> */}
         <Button
           onPress={() => navigation.navigate('AttachmentsBook')}
           _text={{
@@ -309,7 +307,7 @@ const StudentDrawerContains = () => {
           }>
           Events
         </Button>
-        <Button
+        {/* <Button
           onPress={() => navigation.navigate('FeeHistory')}
           _text={{
             fontSize: 'md',
@@ -326,7 +324,7 @@ const StudentDrawerContains = () => {
             />
           }>
           Fee History
-        </Button>
+        </Button> */}
         <Button
           onPress={handleLogout}
           _text={{

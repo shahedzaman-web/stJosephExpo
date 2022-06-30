@@ -1,12 +1,25 @@
 import React from "react";
-import { Box, Button, CheckIcon, HStack, Select, Text } from "native-base";
+import {
+  Box,
+  Button,
+  CheckIcon,
+  HStack,
+  Select,
+  Skeleton,
+  Spinner,
+  Text,
+} from "native-base";
 import colors from "../../../theme/colors";
 import { AntDesign } from "@expo/vector-icons";
 import moment from "moment";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useSelector } from "react-redux";
 import * as Location from "expo-location";
-import { useGetBranchWiseSessionQuery } from "../../../store/services/teacherApi";
+import Toast from "react-native-toast-message";
+import {
+  useGetBranchWiseSessionQuery,
+  useManageEmployeeInOutMutation,
+} from "../../../store/services/teacherApi";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -14,21 +27,18 @@ import {
 export default function SelfAttendance() {
   const [location, setLocation] = React.useState(null);
   const [errorMsg, setErrorMsg] = React.useState(null);
+  const [manageEmployeeInOut, { isLoading }] = useManageEmployeeInOutMutation();
+  const getLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      setErrorMsg("Permission to access location was denied");
+      return;
+    }
 
-  React.useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
-      }
+    let location = await Location.getCurrentPositionAsync({});
+    setLocation(location.coords);
+  }
 
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location.coords);
-    })();
-  }, []);
-
-  console.log("location", location);
   const [loginPickerVisible, setLoginPickerVisible] = React.useState(false);
   const [logoutPickerVisible, setLogoutPickerVisible] = React.useState(false);
   const [startTime, setStartTime] = React.useState(
@@ -36,16 +46,15 @@ export default function SelfAttendance() {
   );
   const [selectedSession, setSelectedSession] = React.useState("");
   const userInfo = useSelector((state) => state.auth.userInfo);
-
+  // console.log({userInfo});
   const branchId = userInfo.branch._id;
   const getBranchWiseSession = useGetBranchWiseSessionQuery({
     branchId,
   });
   const [sessionName, setSessionName] = React.useState("");
   const [sessionData, setSessionData] = React.useState([]);
-  const [today, setToday] = React.useState(
-    moment(new Date()).format("YYYY-MM-DD")
-  );
+  let today = moment(new Date()).format("YYYY-MM-DD");
+
   const [endTime, setEndTime] = React.useState(
     moment(new Date(), "HH:mm").format("hh:mm A")
   );
@@ -87,20 +96,92 @@ export default function SelfAttendance() {
     }
   };
   const handleLogin = async () => {
+    if(selectedSession === ""){
+      Toast.show({
+        type: "danger",
+        text1: "Please Select Session",
+      });
+    }
+    else{
+    try{
+      getLocation();
+      const logInLocation = location?.latitude + "," + location?.longitude;
+      const payload = {
+        branchName: userInfo.branch.branchName,
+        branchId: userInfo.branch._id,
+        sessionName: sessionName,
+        sessionId: selectedSession,
+        employeeId: userInfo._id,
+        logIn: startTime,
+        logOut: "",
+        logInLocation: logInLocation,
+        logOutLocation: "",
+        date: today,
+      };
+      const {data,error}= await manageEmployeeInOut(payload);
+      console.log("data=====================================>", data,error);
+      if(data.message ==="Login Successfully"){
+        Toast.show({
+          type: "success",
+          text1: data.message,
+        });
+      }
+      else{
+        Toast.show({
+          type: "danger",
+          text1: "Login Failed",
+        });
+      }
+
+    }
+    catch(e){
+      console.log(e);
+    }
+  }
+  };
+  const handleLogout = async () => {
+    if(selectedSession === ""){
+      Toast.show({
+        type: "danger",
+        text1: "Please Select Session",
+      });
+    }
+    else{
+    try{
+    getLocation();
+    const logInLocation = location?.latitude + "," + location?.longitude;
     const payload = {
       branchName: userInfo.branch.branchName,
       branchId: userInfo.branch._id,
-      sessionName: "2018-2019",
-      sessionId: "6273f3d1691f297ed98bed8b",
-      employeeId: "62764e461057b805baecb0cb",
-      logIn: "07:15",
-      logOut: "04:20",
-      logInLocation: "",
-      logOutLocation: "",
-      date: "2022-06-20",
+      sessionName: sessionName,
+      sessionId: selectedSession,
+      employeeId: userInfo._id,
+      logIn: startTime,
+      logOut: endTime,
+      logInLocation: logInLocation,
+      logOutLocation: logInLocation,
+      date: today,
     };
-  };
-  const handleLogout = async () => {};
+    const {data,error}= await manageEmployeeInOut(payload);
+    console.log("data=====================================>", data,error);
+    if(data.message ==="Login Successfully"){
+      Toast.show({
+        type: "success",
+        text1: "Logout Successfully",
+      });
+    }
+    else{
+      Toast.show({
+        type: "danger",
+        text1: "Login Failed",
+      });
+    }
+  }
+  catch(e){
+    console.log(e);
+  }
+  }
+  }
   return (
     <Box p={"2"}>
       <HStack
@@ -139,14 +220,18 @@ export default function SelfAttendance() {
           </Select>
         )}
       </HStack>
-      <HStack mb="2"  w={"100%"} justifyContent={"space-between"} alignItems={"center"}>
-              <Text bold fontSize={"lg"} color={colors.primary}>
-              Today's Date
-              </Text>
-              <Text bold fontSize={"lg"} color={colors.primary}>
-              {today}
-              </Text>
-
+      <HStack
+        mb="2"
+        w={"100%"}
+        justifyContent={"space-between"}
+        alignItems={"center"}
+      >
+        <Text bold fontSize={"lg"} color={colors.primary}>
+          Today's Date
+        </Text>
+        <Text bold fontSize={"lg"} color={colors.primary}>
+          {today}
+        </Text>
       </HStack>
       <DateTimePickerModal
         isVisible={loginPickerVisible}
@@ -182,7 +267,11 @@ export default function SelfAttendance() {
           bg={colors.primary}
           onPress={handleLogin}
         >
-          <Text color={colors.white}>Login</Text>
+          {isLoading ? (
+            <Spinner size="small" color={colors.white} />
+          ) : (
+            <Text color={colors.white}>Login</Text>
+          )}
         </Button>
       </HStack>
       <HStack my="2" alignItems={"center"} justifyContent={"space-between"}>
@@ -207,7 +296,14 @@ export default function SelfAttendance() {
           bg={colors.primary}
           onPress={handleLogout}
         >
-          <Text color={colors.white}>Logout</Text>
+        
+          {isLoading ? (
+            <Spinner size="small" color={colors.white} />
+          ) : (
+            <Text color={colors.white}>Logout</Text>
+          )}
+        
+          
         </Button>
       </HStack>
     </Box>

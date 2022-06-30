@@ -105,6 +105,7 @@ const Schedule = () => {
           <ScheduleCard item={item} index={index} />
         )}
         keyExtractor={item => item.subject}
+        contentContainerStyle={{ paddingBottom: 20 }}
       />
     </Box>
   );

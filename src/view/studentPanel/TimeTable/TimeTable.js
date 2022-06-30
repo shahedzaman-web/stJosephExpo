@@ -16,12 +16,12 @@ const TimeTable = () => {
   const userInfo = useSelector(state => state.auth.userInfo);
   //console.log({userInfo});
   const payload = {
-    branchName: userInfo.branch.branchName,
-    branchId: userInfo.branch._id,
-    sessionName: userInfo.session.sessionName,
-    sessionId: userInfo.session._id,
-    classId: userInfo.class._id,
-    sectionId: userInfo.section._id,
+    branchName: userInfo?.branch?.branchName,
+    branchId: userInfo?.branch?._id,
+    sessionName: userInfo?.session?.sessionName,
+    sessionId: userInfo?.session?._id,
+    classId: userInfo?.class?._id,
+    sectionId: userInfo?.section?._id,
   };
   let today = moment().format('dddd').toLowerCase();
 
@@ -41,8 +41,8 @@ const TimeTable = () => {
     )
   }
   const list = data[0]?.data[0];
-
-  const todaysClass = list[today];
+let todaysClass =[]
+list !== undefined  && list[today];
 
   return (
     <>

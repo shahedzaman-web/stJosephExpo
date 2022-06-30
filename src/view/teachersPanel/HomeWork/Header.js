@@ -6,29 +6,21 @@ import {
 } from "react-native-responsive-screen";
 import colors from "../../../theme/colors";
 import {
-  useGetBranchSessionWiseExamListQuery,
   useGetBranchWiseSessionQuery,
   useGetBranchWiseSubjectQuery,
   useGetClassWiseSectionQuery,
-  useGetExamScheduleListForTeacherQuery,
-  useGetFilterWiseExamMarksForTeacherQuery,
+  useGetHomeWorksQuery,
   useGetSessionWiseClassQuery,
 } from "../../../store/services/teacherApi";
 import { useSelector } from "react-redux";
-export default function ExamHeader({
-  setExamSchedule,
-  setExamMarksData,
-  type,
-}) {
+export default function Header({ setHomeworkData }) {
   const [selectedSession, setSelectedSession] = React.useState("");
   const [selectedClass, setSelectedClass] = React.useState("");
-  const [selectedSection, setSelectedSection] = React.useState("");
   const [sessionName, setSessionName] = React.useState("");
   const [sessionData, setSessionData] = React.useState([]);
   const [classData, setClassData] = React.useState([]);
   const [sectionData, setSectionData] = React.useState([]);
-  const [selectedExam, setSelectedExam] = React.useState("");
-  const [examListData, setExamListData] = React.useState([]);
+  const [selectedSection, setSelectedSection] = React.useState("");
   const [subjectData, setSubjectData] = React.useState([]);
   const [selectedSubject, setSelectedSubject] = React.useState("");
   const userInfo = useSelector((state) => state.auth.userInfo);
@@ -42,42 +34,28 @@ export default function ExamHeader({
   const getClassWiseSection = useGetClassWiseSectionQuery({
     classId: selectedClass,
   });
-  const getExamScheduleListForTeacher = useGetExamScheduleListForTeacherQuery({
-    branchName: userInfo.branch.branchName,
-    branchId: userInfo.branch._id,
-    sessionId: selectedSession,
-    classId: selectedClass,
-    sectionId: selectedSection,
-    teacherId: userInfo._id,
-    sessionName: sessionName,
-  });
-  const getBranchSessionWiseExamList = useGetBranchSessionWiseExamListQuery({
-    branchName: userInfo.branch.branchName,
-    branchId: userInfo.branch._id,
-    sessionId: selectedSession,
-    sessionName: sessionName,
-  });
+
   const getBranchWiseSubject = useGetBranchWiseSubjectQuery({
     branchName: userInfo.branch.branchName,
     branchId: userInfo.branch._id,
     sessionId: selectedSession,
     sessionName: sessionName,
   });
-  const getFilterWiseExamMarks = useGetFilterWiseExamMarksForTeacherQuery({
+  const getHomeWorks = useGetHomeWorksQuery({
     branchName: userInfo.branch.branchName,
     branchId: userInfo.branch._id,
-    sessionId: selectedSession,
     sessionName: sessionName,
+    sessionId: selectedSession,
     classId: selectedClass,
     sectionId: selectedSection,
-    examId: selectedExam,
     subjectId: selectedSubject,
   });
-  console.log(
-    "getFilterWiseExamMarks=======================================>",
-    getFilterWiseExamMarks?.data,
-    getFilterWiseExamMarks?.error
-  );
+  React.useEffect(() => {
+    if (getHomeWorks.data !== undefined) {
+      setHomeworkData(getHomeWorks.data.data);
+    }
+  }, [getHomeWorks.data]);
+
   React.useEffect(() => {
     if (getBranchWiseSession?.data !== undefined) {
       setSessionData(getBranchWiseSession?.data?.data);
@@ -93,23 +71,7 @@ export default function ExamHeader({
       setSectionData(getClassWiseSection?.data?.data);
     }
   }, [getClassWiseSection?.data]);
-  React.useEffect(() => {
-    if (
-      getExamScheduleListForTeacher?.data !== undefined &&
-      getExamScheduleListForTeacher?.data[0]?.data[0]?.examSchedule !==
-        undefined &&
-      type !== "Marks"
-    ) {
-      setExamSchedule(
-        getExamScheduleListForTeacher?.data[0]?.data[0]?.examSchedule
-      );
-    }
-  }, [getExamScheduleListForTeacher?.data]);
-  React.useEffect(() => {
-    if (getBranchSessionWiseExamList?.data !== undefined) {
-      setExamListData(getBranchSessionWiseExamList?.data);
-    }
-  }, [getBranchSessionWiseExamList?.data]);
+
   React.useEffect(() => {
     if (getBranchWiseSubject?.data !== undefined) {
       setSubjectData(getBranchWiseSubject?.data?.data);
@@ -126,15 +88,6 @@ export default function ExamHeader({
   React.useEffect(() => {
     getSessionName();
   }, [getSessionName]);
-  React.useEffect(() => {
-    if (getFilterWiseExamMarks?.data !== undefined && type === "Marks") {
-      console.log(
-        "getFilterWiseExamMarks=======================================>",
-        getFilterWiseExamMarks?.data[0]?.marks
-      );
-      setExamMarksData(getFilterWiseExamMarks?.data[0]?.marks);
-    }
-  }, [getFilterWiseExamMarks?.data]);
 
   return (
     <Box>
@@ -244,80 +197,41 @@ export default function ExamHeader({
             </Select>
           )}
         </HStack>
-        {type === "Marks" && (
-          <>
-            <HStack
-              h={hp("8%")}
-              w={"90%"}
-              alignItems={"center"}
-              justifyContent={"space-between"}
+        <HStack
+          h={hp("8%")}
+          w={"90%"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
+          <Text bold fontSize={"lg"} color={colors.primary}>
+            Select Subject
+          </Text>
+          {getBranchWiseSubject?.isLoading ? (
+            <Skeleton style={{ width: wp("50%") }} text />
+          ) : (
+            <Select
+              borderColor={colors.primary}
+              selectedValue={selectedSubject}
+              minWidth="200"
+              accessibilityLabel="Choose Subject"
+              placeholder="Choose Subject"
+              _selectedItem={{
+                bg: "teal.600",
+                endIcon: <CheckIcon size="5" />,
+              }}
+              mt={1}
+              onValueChange={(itemValue) => setSelectedSubject(itemValue)}
             >
-              <Text bold fontSize={"lg"} color={colors.primary}>
-                Select Exam
-              </Text>
-              {getClassWiseSection?.isLoading ? (
-                <Skeleton style={{ width: wp("50%") }} text />
-              ) : (
-                <Select
-                  borderColor={colors.primary}
-                  selectedValue={selectedExam}
-                  minWidth="200"
-                  accessibilityLabel="Choose Exam"
-                  placeholder="Choose Exam"
-                  _selectedItem={{
-                    bg: "teal.600",
-                    endIcon: <CheckIcon size="5" />,
-                  }}
-                  mt={1}
-                  onValueChange={(itemValue) => setSelectedExam(itemValue)}
-                >
-                  {examListData?.map((item) => (
-                    <Select.Item
-                      key={item._id}
-                      value={item._id}
-                      label={item.name}
-                    />
-                  ))}
-                </Select>
-              )}
-            </HStack>
-            <HStack
-              h={hp("8%")}
-              w={"90%"}
-              alignItems={"center"}
-              justifyContent={"space-between"}
-            >
-              <Text bold fontSize={"lg"} color={colors.primary}>
-                Select Subject
-              </Text>
-              {getBranchWiseSubject?.isLoading ? (
-                <Skeleton style={{ width: wp("50%") }} text />
-              ) : (
-                <Select
-                  borderColor={colors.primary}
-                  selectedValue={selectedSubject}
-                  minWidth="200"
-                  accessibilityLabel="Choose Subject"
-                  placeholder="Choose Subject"
-                  _selectedItem={{
-                    bg: "teal.600",
-                    endIcon: <CheckIcon size="5" />,
-                  }}
-                  mt={1}
-                  onValueChange={(itemValue) => setSelectedSubject(itemValue)}
-                >
-                  {subjectData?.map((item) => (
-                    <Select.Item
-                      key={item._id}
-                      value={item._id}
-                      label={item.subjectName}
-                    />
-                  ))}
-                </Select>
-              )}
-            </HStack>
-          </>
-        )}
+              {subjectData?.map((item) => (
+                <Select.Item
+                  key={item._id}
+                  value={item._id}
+                  label={item.subjectName}
+                />
+              ))}
+            </Select>
+          )}
+        </HStack>
       </Box>
     </Box>
   );

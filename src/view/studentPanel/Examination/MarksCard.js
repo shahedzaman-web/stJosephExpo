@@ -1,14 +1,13 @@
-import {Box, HStack, Text, VStack} from 'native-base';
-import React from 'react';
-import bgCardColor from '../../../theme/bgCardColor';
+import { Box, HStack, Text, VStack } from "native-base";
+import React from "react";
+import bgCardColor from "../../../theme/bgCardColor";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
-import colors from '../../../theme/colors';
-import bgCardLighterColor from '../../../theme/bgCardLighterColor';
-const MarksCard = ({index, item}) => {
-  //console.log({item});
+} from "react-native-responsive-screen";
+import colors from "../../../theme/colors";
+import bgCardLighterColor from "../../../theme/bgCardLighterColor";
+const MarksCard = ({ index, item }) => {
   const {
     written,
     practical,
@@ -22,17 +21,18 @@ const MarksCard = ({index, item}) => {
 
   return (
     <Box
-      w={wp('90%')}
-      h={hp('18%')}
-      my={'2'}
-      borderRadius={'md'}
-      p={'3'}
-      borderLeftWidth={'10'}
-      shadow={'3'}
+      w={wp("90%")}
+      h={hp("18%")}
+      my={"2"}
+      borderRadius={"md"}
+      p={"3"}
+      borderLeftWidth={"10"}
+      shadow={"3"}
       bg={bgCardLighterColor[index]}
       borderLeftColor={bgCardColor[index]}
-      alignSelf={'center'}>
-      <VStack justifyContent={'space-between'}>
+      alignSelf={"center"}
+    >
+      <VStack justifyContent={"space-between"}>
         <Text bold color={colors.gray}>
           Written Mark : {written} /{writtenFullMark}
         </Text>

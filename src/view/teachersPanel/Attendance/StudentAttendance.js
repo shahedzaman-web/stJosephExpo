@@ -11,12 +11,15 @@ import {
   Skeleton,
   FlatList,
   Button,
+  Spinner,
 } from "native-base";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import Toast from "react-native-toast-message";
 import {
+  useAddStudentAttendanceMutation,
   useGetBranchWiseSessionQuery,
   useGetClassWiseSectionQuery,
   useGetSessionWiseClassQuery,
@@ -28,7 +31,7 @@ import moment from "moment";
 export default function StudentAttendance() {
   const [studentData, setStudentData] = React.useState([]);
   const [selectedDay, setSelectedDay] = React.useState(
-    moment(new Date()).format("DD-MM-YYYY")
+    moment(new Date()).format("YYYY-MM-DD")
   );
   const [datePickerVisible, setDatePickerVisible] = React.useState(false);
   const [selectedSession, setSelectedSession] = React.useState("");
@@ -38,6 +41,7 @@ export default function StudentAttendance() {
   const [sessionData, setSessionData] = React.useState([]);
   const [classData, setClassData] = React.useState([]);
   const [sectionData, setSectionData] = React.useState([]);
+  const [attendanceDetails, setAttendanceDetails] = React.useState([]);
   const userInfo = useSelector((state) => state.auth.userInfo);
   const branchId = userInfo.branch._id;
   const getBranchWiseSession = useGetBranchWiseSessionQuery({
@@ -57,6 +61,8 @@ export default function StudentAttendance() {
     classId: selectedClass,
     sectionId: selectedSection,
   });
+  const [addStudentAttendance, { isLoading }] =
+    useAddStudentAttendanceMutation();
   React.useEffect(() => {
     if (getBranchWiseSession?.data !== undefined) {
       setSessionData(getBranchWiseSession?.data?.data);
@@ -87,13 +93,57 @@ export default function StudentAttendance() {
   React.useEffect(() => {
     if (getStudentAsFilter?.data !== undefined) {
       setStudentData(getStudentAsFilter?.data?.data);
+      const details = getStudentAsFilter?.data?.data.map((item) => {
+        return {
+          studentId: item._id,
+          firstName: item.firstName,
+          lastName: item.lastName,
+          roll: item.roll,
+          regNo: item.regNo,
+          status: "",
+        };
+      });
+      setAttendanceDetails(details);
     }
   }, [getStudentAsFilter]);
   const handleConfirmDate = (date) => {
     setDatePickerVisible(false);
-    setSelectedDay(moment(date).format("DD-MM-YYYY"));
+    setSelectedDay(moment(date).format("YYYY-MM-DD"));
   };
-  
+
+  const handleSubmit = async () => {
+    try {
+      const payload = {
+        branchName: userInfo.branch.branchName,
+        branchId: branchId,
+        sessionId: selectedSession,
+        sessionName: sessionName,
+        classId: selectedClass,
+        sectionId: selectedSection,
+        date: selectedDay,
+        attendanceDetails: attendanceDetails,
+      };
+      const { data, error } = await addStudentAttendance(payload);
+      console.log(
+        "data=============================================>",
+        error,
+        data
+      );
+      if (data.message === "Successfully Added") {
+        Toast.show({
+          type: "success",
+          text1: "Successfully Added",
+        });
+      } else {
+        Toast.show({
+          type: "danger",
+          text1: "Something went wrong",
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <Box flex={"1"}>
       <Box>
@@ -247,11 +297,35 @@ export default function StudentAttendance() {
           w="100%"
           data={studentData}
           renderItem={({ item, index }) => (
-            <AttendanceCard item={item} index={index} />
+            <AttendanceCard
+              item={item}
+              index={index}
+              setAttendanceDetails={setAttendanceDetails}
+              attendanceDetails={attendanceDetails}
+            />
           )}
-          keyExtractor={(item) => item.roll.toString()}
+          keyExtractor={(item) => item._id.toString()}
         />
       )}
+      <Button
+        my={2}
+        onPress={handleSubmit}
+        variant={"unstyled"}
+        w={wp("92%")}
+        alignSelf={"center"}
+        h={hp("8%")}
+        alignItems={"center"}
+        justifyContent={"center"}
+        bg={colors.primary}
+      >
+        {isLoading ? (
+          <Spinner size="small" color={colors.white} />
+        ) : (
+          <Text color={colors.white} fontSize={"lg"} bold>
+            Submit
+          </Text>
+        )}
+      </Button>
     </Box>
   );
 }

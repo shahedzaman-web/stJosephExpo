@@ -16,19 +16,19 @@ const AcademicClassSchedule = () => {
   const [dataDayWise, setDataDayWise] = React.useState(null);
   const userInfo = useSelector(state => state.auth.userInfo);
   const {data, isLoading} = useGetClassScheduleQuery({
-    branchName: userInfo.branch.branchName,
-    branchId: userInfo.branch._id,
-    sessionName: userInfo.session.sessionName,
-    sessionId: userInfo.session._id,
-    classId: userInfo.class._id,
-    sectionId: userInfo.section._id,
+    branchName: userInfo?.branch?.branchName,
+    branchId: userInfo?.branch?._id,
+    sessionName: userInfo?.session?.sessionName,
+    sessionId: userInfo?.session?._id,
+    classId: userInfo?.class?._id,
+    sectionId: userInfo?.section?._id,
   });
 
   React.useEffect(() => {
     if (!isLoading && selected) {
       const day = data[0].data[0];
-      //console.log({day});
-      setDataDayWise(day[selected]);
+      
+      day !== undefined && setDataDayWise(day[selected]);
     }
   }, [data, selected]);
 

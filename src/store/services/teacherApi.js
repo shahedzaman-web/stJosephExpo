@@ -155,8 +155,6 @@ const teacherApi = appApi.injectEndpoints({
           url: `/manageEmployeeInOut`,
           method: "POST",
           body: data,
-          validateStatus: (response, result) =>
-            response.status === 200 && !result.isError, // Our tricky API always returns a 200, but sets an `isError` property when there is an error.
         };
       },
     }),
@@ -283,6 +281,17 @@ const teacherApi = appApi.injectEndpoints({
         };
       },
     }),
+    getEmployeeEvent: builder.query({
+      query: (branchId) => {
+
+        return {
+          url: `/getEmployeeEvent?page=1&limit=25&search=&branchId=${branchId}&role=teacher`,
+          method: "GET",
+          validateStatus: (response, result) =>
+            response.status === 200 && !result.isError, // Our tricky API always returns a 200, but sets an `isError` property when there is an error.
+        };
+      },
+    }),
   }),
   overrideExisting: false,
 });
@@ -307,4 +316,5 @@ export const {
   useGetBranchWiseSubjectQuery,
   useGetStudentAttendanceForAdminQuery,
   useGetAttendanceQuery,
+  useGetEmployeeEventQuery,
 } = teacherApi;

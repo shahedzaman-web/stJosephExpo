@@ -3,8 +3,8 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import AppHeader from '../../../components/AppHeader';
 import {
-  useGetBranchWiseSubjectQuery,
-  useGetAllHomeworkEvaluationForStudentQuery,
+    useGetAllHomeworkEvaluationForStudentQuery,
+  useGetAllSubjectQuery,
 } from '../../../store/services/studentApi';
 import colors from '../../../theme/colors';
 import {
@@ -17,7 +17,7 @@ const HomeWork = () => {
   const [selectedSubject, setSelectedSubject] = React.useState('');
 
   const userInfo = useSelector(state => state.auth.userInfo);
-  const {data, isLoading} = useGetBranchWiseSubjectQuery({
+  const {data, isLoading} = useGetAllSubjectQuery({
     branchName: userInfo.branch.branchName,
     branchId: userInfo.branch._id,
     sessionName: userInfo.session.sessionName,

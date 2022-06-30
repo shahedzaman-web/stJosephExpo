@@ -6,7 +6,7 @@ import {
   Avatar,
   VStack,
   Text,
-  FlatList,
+
   Button,
 } from "native-base";
 import React from "react";
@@ -15,8 +15,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import ProfileCard from "./ProfileCard";
-import profileData from "./data";
+
 import { useSelector } from "react-redux";
 import baseURL from "../../../utils/baseURL";
 import {
@@ -27,7 +26,7 @@ import {
 } from "@expo/vector-icons";
 const Profile = () => {
   const userInfo = useSelector((state) => state.auth.userInfo);
-  console.log({ userInfo });
+
   const { employeeName, profilePhoto, email } = userInfo;
 
   return (
@@ -109,7 +108,7 @@ const Profile = () => {
                 {userInfo.branch.branchName}
               </Text>
             </HStack>
-            <Button
+            {/* <Button
               alignSelf={"center"}
               bg={colors.primary}
               color={colors.white}
@@ -125,7 +124,7 @@ const Profile = () => {
               <Text bold color={colors.white}>
                 Edit Profile
               </Text>
-            </Button>
+            </Button> */}
           </VStack>
         </Center>
       </ZStack>
