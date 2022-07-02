@@ -1,11 +1,4 @@
-import {
-  Box,
-  HStack,
-  Radio,
-  Stack,
-  Text,
-  VStack,
-} from "native-base";
+import { Box, HStack, Radio, Stack, Text, VStack } from "native-base";
 import React from "react";
 import bgCardColor from "../../../theme/bgCardColor";
 import bgCardLighterColor from "../../../theme/bgCardLighterColor";
@@ -22,14 +15,14 @@ const AttendanceCard = ({
   attendanceDetails,
 }) => {
   const { firstName, lastName, roll, regNo } = item;
-  const [selected, setSelected] = React.useState(null);
+  const [selected, setSelected] = React.useState("");
 
   const handleChange = React.useCallback((nextValue) => {
     setSelected(nextValue);
     const rowsInput = [...attendanceDetails];
     rowsInput[index].status = nextValue;
     setAttendanceDetails(rowsInput);
-  })
+  });
   return (
     <Box
       my="3"
@@ -92,4 +85,4 @@ const AttendanceCard = ({
   );
 };
 
-export default  React.memo(AttendanceCard);
+export default AttendanceCard;

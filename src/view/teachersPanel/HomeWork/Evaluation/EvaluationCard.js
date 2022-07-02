@@ -4,16 +4,16 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { Box, Button, HStack, Image, Modal, Text, VStack } from "native-base";
-import bgCardLighterColor from "../../../theme/bgCardLighterColor";
-import bgCardColor from "../../../theme/bgCardColor";
-import colors from "../../../theme/colors";
 import moment from "moment";
 import { FontAwesome } from "@expo/vector-icons";
-import baseURL from "../../../utils/baseURL";
+import bgCardLighterColor from "../../../../theme/bgCardLighterColor";
+import bgCardColor from "../../../../theme/bgCardColor";
+import colors from "../../../../theme/colors";
+
 export default function EvaluationCard({ item, index }) {
   const { title, dateOfHomework, dateOfSubmission, details, attachmentFile } =
     item;
-    const [modalVisible, setModalVisible] = React.useState(false);
+  const [modalVisible, setModalVisible] = React.useState(false);
   return (
     <Box
       w={wp("90%")}
@@ -46,11 +46,15 @@ export default function EvaluationCard({ item, index }) {
         <Text my="1" bold color={colors.gray}>
           Details : {details}
         </Text>
-        <Button onPress={() => setModalVisible(true)} my="2" bg={colors.primary}>
-        <Text fontSize="md" bold color={colors.white}>
-          View Attachment
-        </Text>
-      </Button>
+        <Button
+          onPress={() => setModalVisible(true)}
+          my="2"
+          bg={colors.primary}
+        >
+          <Text fontSize="md" bold color={colors.white}>
+            View Attachment
+          </Text>
+        </Button>
       </VStack>
       <Modal
         isOpen={modalVisible}
@@ -62,11 +66,11 @@ export default function EvaluationCard({ item, index }) {
       >
         <Modal.Content>
           <Modal.CloseButton />
-          <Modal.Header>View Events</Modal.Header>
+          <Modal.Header bold>View Attach File</Modal.Header>
           <Modal.Body>
             <Image
-              alt={"events"}
-              source={{ uri: baseURL + "/eventPhoto/" + attachmentFile }}
+              alt={"homeWorkAttachFile"}
+              source={{ uri: baseURL + "/homeWorkAttachFile/" + attachmentFile }}
               style={{
                 width: wp("90%"),
                 height: hp("60%"),

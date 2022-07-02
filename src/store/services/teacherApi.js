@@ -81,9 +81,9 @@ const teacherApi = appApi.injectEndpoints({
     }),
     getAllStudent: builder.query({
       query: (data) => {
-        const { branchId, classId, sectionId, teacherId } = data;
+        const { branchId, classId, sectionId, sessionName, branchName } = data;
         return {
-          url: `/getAllStudent?page=1&limit=25&search=&branchName${branchName}&sessionName${sessionName}&branchId${branchId}&classId${classId}&sectionId${sectionId}`,
+          url: `/getAllStudent?page=1&limit=25&search=&branchName=${branchName}&sessionName=${sessionName}&branchId=${branchId}&classId=${classId}&sectionId=${sectionId}`,
           method: "GET",
           validateStatus: (response, result) =>
             response.status === 200 && !result.isError, // Our tricky API always returns a 200, but sets an `isError` property when there is an error.
@@ -283,7 +283,6 @@ const teacherApi = appApi.injectEndpoints({
     }),
     getEmployeeEvent: builder.query({
       query: (branchId) => {
-
         return {
           url: `/getEmployeeEvent?page=1&limit=25&search=&branchId=${branchId}&role=teacher`,
           method: "GET",
@@ -292,8 +291,17 @@ const teacherApi = appApi.injectEndpoints({
         };
       },
     }),
+    addHomeworkEvaluation: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/addHomeworkEvaluation`,
+          method: "POST",
+          body: data,
+        };
+      },
+    }),
   }),
-  overrideExisting: false,
+  overrideExisting: true,
 });
 export const {
   useGetAllBranchQuery,
@@ -317,4 +325,5 @@ export const {
   useGetStudentAttendanceForAdminQuery,
   useGetAttendanceQuery,
   useGetEmployeeEventQuery,
+  useAddHomeworkEvaluationMutation,
 } = teacherApi;

@@ -4,8 +4,9 @@ import { TabView, SceneMap } from "react-native-tab-view";
 import React from "react";
 import AppHeader from "../../../components/AppHeader";
 import colors from "../../../theme/colors";
-import Evaluation from "./Evaluation";
-import AddEvaluation from "./AddEvaluation";
+import Evaluation from "./Evaluation/Evaluation";
+import AddEvaluation from "./AddEvaluation/AddEvaluation";
+
 const initialLayout = {
   width: Dimensions.get("window").width,
 };

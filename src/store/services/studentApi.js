@@ -197,7 +197,6 @@ export const {
   useGetAllSectionQuery,
   useGetAllBranchForStudentQuery,
   useGetAllSessionQuery,
-  useGetAllStudentQuery,
   useGetAllTeacherQuery,
   useGetAllExamQuery,
   useGetAllExamScheduleQuery,

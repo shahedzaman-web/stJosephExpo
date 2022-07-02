@@ -166,7 +166,7 @@ const TeacherDrawerContains = () => {
             </Text>
           </HStack>
         </Pressable>
-        <Button
+        {/* <Button
           onPress={() => navigation.navigate("LeaveApplication")}
           _text={{
             fontSize: "md",
@@ -184,8 +184,8 @@ const TeacherDrawerContains = () => {
           }
         >
           Leave Application
-        </Button>
-        <Button
+        </Button> */}
+        {/* <Button
           onPress={() => navigation.navigate("AttachmentsBook")}
           _text={{
             fontSize: "md",
@@ -203,7 +203,7 @@ const TeacherDrawerContains = () => {
           }
         >
           Attachments Book
-        </Button>
+        </Button> */}
         <Button
           onPress={() => navigation.navigate("HomeWork")}
           _text={{

@@ -4,16 +4,16 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import colors from "../../../theme/colors";
+import colors from "../../../../theme/colors";
 import {
   useGetBranchWiseSessionQuery,
   useGetBranchWiseSubjectQuery,
   useGetClassWiseSectionQuery,
   useGetHomeWorksQuery,
   useGetSessionWiseClassQuery,
-} from "../../../store/services/teacherApi";
+} from "../../../../store/services/teacherApi";
 import { useSelector } from "react-redux";
-export default function Header({ setHomeworkData }) {
+export default function EvaluationHeader({ setHomeworkData }) {
   const [selectedSession, setSelectedSession] = React.useState("");
   const [selectedClass, setSelectedClass] = React.useState("");
   const [sessionName, setSessionName] = React.useState("");
@@ -71,7 +71,6 @@ export default function Header({ setHomeworkData }) {
       setSectionData(getClassWiseSection?.data?.data);
     }
   }, [getClassWiseSection?.data]);
-
   React.useEffect(() => {
     if (getBranchWiseSubject?.data !== undefined) {
       setSubjectData(getBranchWiseSubject?.data?.data);

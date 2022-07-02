@@ -6,8 +6,10 @@ import {
 } from 'react-native-responsive-screen';
 import bgCardColor from '../../../theme/bgCardColor';
 import bgCardLighterColor from '../../../theme/bgCardLighterColor';
+import baseURL from '../../../utils/baseURL';
+import moment from 'moment';
 const StudentCard = ({item, index}) => {
-   
+const {lastName,firstName,email,classId,groupId,mobileNo,profilePhoto,admissionDate ,dob,sectionId,presentAddress} = item
   return (
     <Box
       my="3"
@@ -15,7 +17,7 @@ const StudentCard = ({item, index}) => {
       justifyContent={'center'}
       mx="auto"
       w={wp('92%')}
-      h={hp('20%')}
+      h={hp('32%')}
       alignSelf="center"
       borderRadius={'md'}
       borderLeftWidth={'10'}
@@ -24,21 +26,27 @@ const StudentCard = ({item, index}) => {
       bg={bgCardLighterColor[index]}>
         <HStack alignItems={"center"}>
         <Avatar
+        _text={{
+          fontSize: "2xs",
+        }}
               bg="green.500"
-              source={{
-                uri: 'https://images.unsplash.com/photo-1614289371518-722f2615943d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+              source={{ 
+                uri: baseURL + '/studentProfile/' + profilePhoto,
               }}>
-              AJ
+              {firstName} {lastName}
             </Avatar>      
             <VStack ml="4">
-            <Text bold fontSize="md" color={bgCardColor[index]}>
-        {item.name}
+            <Text bold fontSize="lg" color={bgCardColor[index]}>
+        {firstName} {lastName}
       </Text>
-      <Text fontSize="md">Roll: {item.roll}</Text>
-      <Text fontSize="md">Reg Number: {item.regNumber}</Text>
-      <Text fontSize="md">Attendance: {item.attendance}</Text>
-      <Text fontSize="md">Guardian: {item.guardian}</Text>
-      <Text fontSize="md">Guardian Phone: {item.guardianPhone}</Text>
+      <Text fontSize="sm">Student / {groupId.groupName}</Text>
+      <Text fontSize="sm">Roll: {item.roll}</Text>
+      <Text fontSize="sm">Admission Date: {moment(admissionDate).format("YYYY-MM-DD")}</Text>
+      <Text fontSize="sm">Date of Birth : {moment(dob).format("YYYY-MM-DD")}</Text>
+      <Text fontSize="sm">Class: {classId?.className}/ {sectionId?.sectionName}</Text>
+      <Text fontSize="sm">Mobile No : {mobileNo}</Text>
+      <Text fontSize="sm">Email : {email}</Text>
+      <Text fontSize="sm">Address : {presentAddress}</Text>
             </VStack>
         </HStack>
     </Box>
