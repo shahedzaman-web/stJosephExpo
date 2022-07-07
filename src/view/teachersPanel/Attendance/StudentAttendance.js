@@ -124,11 +124,7 @@ export default function StudentAttendance() {
         attendanceDetails: attendanceDetails,
       };
       const { data, error } = await addStudentAttendance(payload);
-      console.log(
-        "data=============================================>",
-        error,
-        data
-      );
+    
       if (data.message === "Successfully Added") {
         Toast.show({
           type: "success",

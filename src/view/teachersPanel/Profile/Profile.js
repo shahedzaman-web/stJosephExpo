@@ -1,133 +1,73 @@
-import {
-  Box,
-  ZStack,
-  Center,
-  HStack,
-  Avatar,
-  VStack,
-  Text,
-
-  Button,
-} from "native-base";
+import { Box, ZStack, Center, Avatar, Text, Divider } from "native-base";
 import React from "react";
 import colors from "./../../../theme/colors";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-
 import { useSelector } from "react-redux";
 import baseURL from "../../../utils/baseURL";
-import {
-  FontAwesome,
-  MaterialCommunityIcons,
-  MaterialIcons,
-  FontAwesome5
-} from "@expo/vector-icons";
+import { ImageBackground } from "react-native";
+
 const Profile = () => {
   const userInfo = useSelector((state) => state.auth.userInfo);
-
   const { employeeName, profilePhoto, email } = userInfo;
 
   return (
     <Box flex={1} bg={colors.primaryLight}>
-      <ZStack bg={colors.white} mt={hp("11%")} shadow={"5"} flex={1}>
-        <Center zIndex={2} w={wp("100%")} h={hp("50%")}>
+      <ImageBackground
+        source={require("./../../../asset/profile-screen-bg.png")}
+        style={{
+          width: wp("100%"),
+          height: hp("60%"),
+          flex: 1,
+          resizeMode: "cover",
+        }}
+      >
+        <ZStack
+          w={wp("92%")}
+          alignSelf={"center"}
+          bg={colors.white}
+          mt={hp("15%")}
+          h={hp("80%")}
+          shadow={"5"}
+          borderRadius={"md"}
+        >
           <Avatar
+            bg="green.500"
             shadow={"5"}
             position={"absolute"}
             top={hp("-10%")}
             alignSelf={"center"}
             size="2xl"
-            source={{
-              uri: baseURL + "/employeeProfile/" + profilePhoto,
-            }}
+            source={{ uri: baseURL + "/employeeProfile/" + profilePhoto }}
           >
-            Profile Photo
+            <Text fontSize="xs">Profile Photo</Text>
           </Avatar>
-          <VStack>
-            <HStack
-              alignItems={"center"}
-              borderBottomColor={colors.primary}
-              borderBottomWidth={1}
-              bg={colors.primaryLight}
-              p="1"
-              pl="10"
-              w={wp("100%")}
-              h={hp("5%")}
-              my="1.5"
+          <Center mt={hp("9%")} w={"100%"}>
+            <Divider m="2" w="90%" />
+            <Text textAlign="center" bold color={colors.primary} fontSize="xl">
+              {employeeName}
+            </Text>
+            <Text
+              fontWeight="600"
+              textAlign="center"
+              color={colors.primary}
+              fontSize="md"
             >
-              <FontAwesome
-                name="user-circle"
-                size={24}
-                color={colors.primary}
-              />
-              <Text mx="2" bold color={colors.primary} fontSize="lg">
-                Name:
-              </Text>
-              <Text bold color={colors.primary} fontSize="lg">
-                {employeeName}
-              </Text>
-            </HStack>
-
-            <HStack
-              alignItems={"center"}
-              borderBottomColor={colors.primary}
-              borderBottomWidth={1}
-              bg={colors.primaryLight}
-              p="1"
-              pl="10"
-              w={wp("100%")}
-              h={hp("5%")}
-              my="1.5"
-            ><MaterialCommunityIcons name="email" size={24} color={colors.primary} />
-
-              <Text mx="2" bold color={colors.primary} fontSize="lg">
-                Email:{" "}
-              </Text>
-              <Text bold color={colors.primary} fontSize="lg">
-                {email}
-              </Text>
-            </HStack>
-            <HStack
-              alignItems={"center"}
-              borderBottomColor={colors.primary}
-              borderBottomWidth={1}
-              bg={colors.primaryLight}
-              p="1"
-              pl="10"
-              w={wp("100%")}
-              h={hp("5%")}
-              my="1.5"
-            ><FontAwesome5 name="school" size={20} color={colors.primary} />
-
-              <Text mx="2" bold color={colors.primary} fontSize="lg">
-              Branch Name:{" "}
-              </Text>
-              <Text bold color={colors.primary} fontSize="lg">
-                {userInfo.branch.branchName}
-              </Text>
-            </HStack>
-            {/* <Button
-              alignSelf={"center"}
-              bg={colors.primary}
-              color={colors.white}
-              fontSize="lg"
-              p="1"
-              w={wp("90%")}
-              h={hp("8%")}
-              my="1.5"
-              leftIcon={
-                <MaterialIcons name="edit" size={24} color={colors.white} />
-              }
+              {email}
+            </Text>
+            <Text
+              fontWeight="600"
+              textAlign="center"
+              color={colors.primary}
+              fontSize="md"
             >
-              <Text bold color={colors.white}>
-                Edit Profile
-              </Text>
-            </Button> */}
-          </VStack>
-        </Center>
-      </ZStack>
+              {userInfo.branch.branchName}
+            </Text>
+          </Center>
+        </ZStack>
+      </ImageBackground>
     </Box>
   );
 };

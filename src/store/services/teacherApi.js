@@ -318,6 +318,36 @@ const teacherApi = appApi.injectEndpoints({
         };
       },
     }),
+    getFilterWiseExamSchedule: builder.query({
+      query: (data) => {
+        const {
+          branchName,
+          branchId,
+          sessionName,
+          sessionId,
+          classId,
+          sectionId,
+          examId,
+          subjectId,
+        } = data;
+
+        return {
+          url: `/getFilterWiseExamSchedule?branchName=${branchName}&sessionName=${sessionName}&branchId=${branchId}&sessionId=${sessionId}&classId=${classId}&sectionId=${sectionId}&examId=${examId}&subjectId=${subjectId}`,
+          method: "GET",
+          validateStatus: (response, result) =>
+            response.status === 200 && !result.isError, // Our tricky API always returns a 200, but sets an `isError` property when there is an error.
+        };
+      },
+    }),
+    addSubjectWiseMarks: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/addSubjectWiseMarks`,
+          method: "POST",
+          body: data,
+        };
+      },
+    }),
   }),
   overrideExisting: true,
 });
@@ -345,4 +375,6 @@ export const {
   useGetEmployeeEventQuery,
   useAddHomeworkEvaluationMutation,
   useGetStudentsForMarkEntryQuery,
+  useGetFilterWiseExamScheduleQuery,
+  useAddSubjectWiseMarksMutation,
 } = teacherApi;

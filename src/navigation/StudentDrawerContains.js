@@ -307,7 +307,7 @@ const StudentDrawerContains = () => {
           }>
           Events
         </Button>
-        {/* <Button
+        <Button
           onPress={() => navigation.navigate('FeeHistory')}
           _text={{
             fontSize: 'md',
@@ -324,7 +324,7 @@ const StudentDrawerContains = () => {
             />
           }>
           Fee History
-        </Button> */}
+        </Button>
         <Button
           onPress={handleLogout}
           _text={{
