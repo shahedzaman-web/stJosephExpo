@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, FlatList } from "native-base";
-import ExamHeader from "./ExamHeader";
+import ExamHeader from "../Examination/ExamHeader";
 import MarksCard from "../../studentPanel/Examination/MarksCard";
 import colors from "../../../theme/colors";
 

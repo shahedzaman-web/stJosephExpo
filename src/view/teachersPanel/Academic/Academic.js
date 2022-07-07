@@ -68,7 +68,7 @@ const Academic = () => {
     }
   }, [getClassWiseSection?.data]);
   React.useEffect(() => {
-    if (selectedDay !== "") {
+    if (selectedDay !== "" && data !== undefined && data.length > 0) {
       const res = data[0];
       setClassScheduleData(res[selectedDay]);
     }

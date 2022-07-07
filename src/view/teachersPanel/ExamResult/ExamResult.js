@@ -3,16 +3,17 @@ import { Dimensions, Animated, Pressable } from "react-native";
 import { TabView, SceneMap } from "react-native-tab-view";
 import { Box, useColorModeValue } from "native-base";
 
-import Schedule from "./Schedule";
+import Marks from "./Marks";
 import colors from "../../../theme/colors";
-import ExamHall from "./ExamHall";
+import AddMarks from "./AddMarks";
+import AppHeader from "../../../components/AppHeader";
 
 const initialLayout = {
   width: Dimensions.get("window").width,
 };
 const renderScene = SceneMap({
-  first: Schedule,
-  second: ExamHall,
+  first: Marks,
+  second: AddMarks,
 });
 
 const TabComponent = () => {
@@ -20,11 +21,11 @@ const TabComponent = () => {
   const [routes] = React.useState([
     {
       key: "first",
-      title: "Schedule",
+      title: "Marks",
     },
     {
       key: "second",
-      title: "Exam Hall",
+      title: "Add Marks",
     },
   ]);
 
@@ -86,7 +87,12 @@ const TabComponent = () => {
   );
 };
 
-const Examination = () => {
-  return <TabComponent />;
+const ExamResult = () => {
+  return (
+    <Box safeArea flex={"1"}>
+      <AppHeader title={"Exam Result"} />
+      <TabComponent />
+    </Box>
+  );
 };
-export default Examination;
+export default ExamResult;

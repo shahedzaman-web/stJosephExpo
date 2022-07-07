@@ -300,6 +300,24 @@ const teacherApi = appApi.injectEndpoints({
         };
       },
     }),
+    getStudentsForMarkEntry: builder.query({
+      query: (data) => {
+        const {
+          branchName,
+          sessionName,
+          branchId,
+          sessionId,
+          classId,
+          sectionId,
+        } = data;
+        return {
+          url: `/getStudentsForMarkEntry?branchName=${branchName}&sessionName=${sessionName}&branchId=${branchId}&sessionId=${sessionId}&classId=${classId}&sectionId=${sectionId}`,
+          method: "GET",
+          validateStatus: (response, result) =>
+            response.status === 200 && !result.isError, // Our tricky API always returns a 200, but sets an `isError` property when there is an error.
+        };
+      },
+    }),
   }),
   overrideExisting: true,
 });
@@ -326,4 +344,5 @@ export const {
   useGetAttendanceQuery,
   useGetEmployeeEventQuery,
   useAddHomeworkEvaluationMutation,
+  useGetStudentsForMarkEntryQuery,
 } = teacherApi;

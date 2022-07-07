@@ -1,4 +1,4 @@
-import {Box, HStack, Text, VStack} from 'native-base';
+import {Box,  Text, VStack} from 'native-base';
 import React from 'react';
 import bgCardColor from '../../../theme/bgCardColor';
 import {

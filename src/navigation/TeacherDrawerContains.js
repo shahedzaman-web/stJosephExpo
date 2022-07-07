@@ -244,7 +244,27 @@ const TeacherDrawerContains = () => {
         >
           Exam Master
         </Button>
-
+        <Button
+          onPress={() =>
+            navigation.navigate("ExamResult")
+          }
+          _text={{
+            fontSize: "md",
+            fontWeight: "bold",
+            color: colors.primary,
+            paddingLeft: "3",
+          }}
+          variant={"unstyled"}
+          leftIcon={
+            <Ionicons
+              name="ios-school-sharp"
+              size={wp("4%")}
+              color={colors.primary}
+            />
+          }
+        >
+          Exam Result
+        </Button>
         <Button
           onPress={() =>
             navigation.navigate("TeacherTab", { screen: "Attendance" })
@@ -269,12 +289,14 @@ const TeacherDrawerContains = () => {
         <Pressable
           variant={"unstyled"}
           w="100%"
-          onPress={() =>
-            navigation.navigate("AttendanceReport")
-          }
+          onPress={() => navigation.navigate("AttendanceReport")}
         >
           <HStack alignItems={"center"} pl="3">
-          <Ionicons name="ios-pie-chart-sharp" size={24} color={colors.primary} />
+            <Ionicons
+              name="ios-pie-chart-sharp"
+              size={24}
+              color={colors.primary}
+            />
 
             <Text
               pl={wp("4%")}
