@@ -13,9 +13,7 @@ import {
   Ionicons,
   Foundation,
 } from "@expo/vector-icons";
-
 import { createDrawerNavigator } from "@react-navigation/drawer";
-
 import NavigationAppHeader from "./NavigationAppHeader";
 import StudentDrawerContains from "./StudentDrawerContains";
 import Profile from "../view/studentPanel/Profile/Profile";

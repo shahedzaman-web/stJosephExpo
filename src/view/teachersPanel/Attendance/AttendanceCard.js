@@ -2,7 +2,6 @@ import { Box, HStack, Radio, Stack, Text, VStack } from "native-base";
 import React from "react";
 import bgCardColor from "../../../theme/bgCardColor";
 import bgCardLighterColor from "../../../theme/bgCardLighterColor";
-
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,

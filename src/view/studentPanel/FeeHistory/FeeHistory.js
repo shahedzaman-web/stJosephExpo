@@ -6,7 +6,7 @@ import AppHeader from "../../../components/AppHeader";
 import colors from "../../../theme/colors";
 import History from "./History";
 import OnlinePayment from "./OnlinePayment";
-import { Host } from "react-native-portalize";
+
 const initialLayout = {
   width: Dimensions.get("window").width,
 };
@@ -88,12 +88,10 @@ const TabComponent = () => {
 
 const FeeHistory = () => {
   return (
-    <Host>
-      <Box flex={1}>
-        <AppHeader title="Fee History" />
-        <TabComponent />
-      </Box>
-    </Host>
+    <Box flex={1}>
+      <AppHeader title="Fee History" />
+      <TabComponent />
+    </Box>
   );
 };
 

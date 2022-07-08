@@ -183,6 +183,28 @@ const studentApi = appApi.injectEndpoints({
         };
       },
     }),
+    getStudentFeesSummary: builder.query({
+      query: (data) => {
+        const {
+          branchName,
+          branchId,
+          sessionName,
+          sessionId,
+          classId,
+          sectionId,
+          studentId,
+          payingMonth,
+        } = data;
+        const url =`/getStudentFeesSummary?page=1&limit=25&branchName=${branchName}&branchId=${branchId}&sessionName=${sessionName}&sessionId=${sessionId}&classId=${classId}&sectionId=${sectionId}&payingMonth=${payingMonth}&studentId=${studentId}`
+        console.log({url})
+        return {
+          url: url,
+          method: "GET",
+          validateStatus: (response, result) =>
+            response.status === 200 && !result.isError, // Our tricky API always returns a 200, but sets an `isError` property when there is an error.
+        };
+      },
+    }),
   }),
   overrideExisting: false,
 });
@@ -208,4 +230,5 @@ export const {
   useGetOneExamScheduleQuery,
   useGetStudentsAttendanceMonthWistQuery,
   useGetStudentEventQuery,
+  useGetStudentFeesSummaryQuery,
 } = studentApi;

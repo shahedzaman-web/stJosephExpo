@@ -10,8 +10,6 @@ import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "./src/store";
 import LoadingScreen from "./src/view/LoadingScreen/LoadingScreen";
 
-// import { StatusBar } from 'expo-status-bar';
-import colors from "./src/theme/colors";
 function App() {
   return (
     <NativeBaseProvider theme={theme}>
@@ -19,9 +17,7 @@ function App() {
         <PersistGate loading={<LoadingScreen />} persistor={persistor}>
           <StatusBar style="dark" />
           <NavigationContainer>
-           
-              <Root />
-     
+            <Root />
           </NavigationContainer>
           <Toast />
         </PersistGate>

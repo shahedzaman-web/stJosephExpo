@@ -7,15 +7,46 @@ import {
 import bgCardColor from '../../../theme/bgCardColor';
 import bgCardLighterColor from '../../../theme/bgCardLighterColor';
 import colors from '../../../theme/colors';
-
+import moment from 'moment';
 import { FontAwesome } from '@expo/vector-icons';
 
 const FeeHistoryCard = ({item, index}) => {
+  // "_id": "62c6cec6032ea8d99db88411",
+  // "branch": Object {
+  //   "_id": "62bb09e14871208891665f08",
+  //   "branchName": "Demo Branch",
+  // },
+  // "class": Object {
+  //   "_id": "62bb0d10144703b4d29778b8",
+  //   "className": "Five",
+  // },
+  // "dueAmount": 0,
+  // "invoiceDate": "2022-07-06T09:22:59.125Z",
+  // "paid": 25000,
+  // "paidVia": "online_payment",
+  // "payable": 25000,
+  // "payingMonth": "June, 2022",
+  // "section": Object {
+  //   "_id": "62bb0d1ede31d8981355df93",
+  //   "sectionName": "A",
+  // },
+  // "session": Object {
+  //   "_id": "62bb0cfc4871208891665f15",
+  //   "sessionName": "2022-2023",
+  // },
+  // "status": "Paid",
+  // "student": Object {
+  //   "_id": "62c67ec2032ea8d99db883e7",
+  //   "firstName": "Juwel",
+  //   "lastName": "Shaikh",
+  //   "mobileNo": "1778907190",
+  //   "regNo": "123-12-02",
+  //   "roll": "2",
   return (
     <Box
       w={wp('90%')}
-      h={item.status === 'Unpaid' ? hp('20%') : hp('14%')}
-      my={"2"}
+
+      my={"3"}
       borderRadius="md"
       p={"2"}
       borderLeftWidth={'10'}
@@ -25,7 +56,7 @@ const FeeHistoryCard = ({item, index}) => {
       borderLeftColor={bgCardColor[index]}>
       <HStack justifyContent={'space-between'} alignItems={'center'}>
         <Text bold fontSize="lg" color={colors.primary}>
-          Fee Type: {item.feeType}
+        Due Amount :{item.dueAmount}
         </Text>
         <Box
           w={"20%"}
@@ -33,26 +64,22 @@ const FeeHistoryCard = ({item, index}) => {
           justifyContent={'center'}
           alignItems={'center'}
           borderRadius="md"
-          bg={item.status === 'Unpaid' ? colors.failBg : colors.passBg}>
+          bg={item.status === 'Paid' ? colors.passBg :colors.failBg}>
           <Text bold fontSize="md" color={colors.white}>
-            {item.status}
+            {item?.status}
           </Text>
         </Box>
       </HStack>
       <HStack alignItems={'center'}>
         <FontAwesome name="calendar-o" size={24} color={colors.darkGary} />
         <Text ml="1" color={colors.darkGary}>
-          Due Date : {item.dueDate}
+        Invoice Date : {moment(item?.invoiceDate).format('DD-MM-YYYY')}
         </Text>
       </HStack>
-      <Text color={colors.darkGary}>Amount: {item.amount}</Text>
-      {item.status === 'Unpaid' && (
-        <Button mt="1" bg={colors.primary}>
-          <Text bold color={colors.white}>
-            Pay Now
-          </Text>
-        </Button>
-      )}
+      <Text color={colors.darkGary}>Paid Amount: {item?.paid}</Text>
+      <Text color={colors.darkGary}>Paid Via: {item?.paidVia}</Text>
+      <Text color={colors.darkGary}>Paying Month: {item?.payingMonth}</Text>
+     
     </Box>
   );
 };
