@@ -19,7 +19,7 @@ export default function ExamHall() {
       setHallData(data?.data);
     }
   }, [data]);
-  console.log({ hallData });
+
   if (isLoading) {
     return <></>;
   }

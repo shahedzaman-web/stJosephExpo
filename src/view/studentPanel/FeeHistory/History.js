@@ -3,11 +3,6 @@ import { FontAwesome } from "@expo/vector-icons";
 import DatePicker from "react-native-modern-datepicker";
 import colors from "../../../theme/colors";
 import { Box, Button, FlatList, HStack, Modal, Text } from "native-base";
-
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
 import { useSelector } from "react-redux";
 import getFormattedMonthAndYear from "./getFormattedMonthAndYear";
 import { useGetStudentFeesSummaryQuery } from "../../../store/services/studentApi";
@@ -26,7 +21,7 @@ export default function History() {
   };
   const userInfo = useSelector((state) => state.auth.userInfo);
 
-  const { isLoading, data, error } = useGetStudentFeesSummaryQuery({
+  const { data } = useGetStudentFeesSummaryQuery({
     branchName: userInfo.branch.branchName,
     branchId: userInfo.branch._id,
     sessionName: userInfo.session.sessionName,
@@ -41,7 +36,7 @@ export default function History() {
       data.length !== 0 && setPaymentData(data[0].data);
     }
   }, [data]);
-  console.log("paymentData===================>", paymentData);
+
   return (
     <Box flex={1} safeArea>
       <HStack p="2" justifyContent={"space-between"} alignItems={"center"}>
@@ -91,18 +86,19 @@ export default function History() {
           </Modal.Footer>
         </Modal.Content>
       </Modal>
-                
+
       <FlatList
-    
         showsVerticalScrollIndicator={false}
         bg={colors.primaryLight}
         borderTopLeftRadius={"30"}
         borderTopRightRadius={"30"}
         mt={"6"}
         data={paymentData}
-        renderItem={({ item,index }) => <FeeHistoryCard item={item} index={index} />}
+        renderItem={({ item, index }) => (
+          <FeeHistoryCard item={item} index={index} />
+        )}
         keyExtractor={(item) => item._id}
-        />
+      />
     </Box>
   );
 }

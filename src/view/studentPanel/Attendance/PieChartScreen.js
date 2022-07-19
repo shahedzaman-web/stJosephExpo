@@ -11,12 +11,12 @@ import colors from '../../../theme/colors';
 
 export default function PieChartScreen({data, isLoading}) {
   const [pieData, setPieData] = React.useState([]);
-  console.log({data});
+ 
   const sliceColor = ['#3dcf8b', '#fa4e71', '#fec502'];
   const renderPieChartData = React.useCallback(() => {
     if (data !== undefined) {
       const attendanceData = data[0]?.data;
-      console.log({attendanceData});
+
       if (attendanceData !== undefined) {
       const present = attendanceData?.filter(item => item.status === 'present');
       const absent = attendanceData?.filter(item => item.status === 'absent');
@@ -45,15 +45,14 @@ export default function PieChartScreen({data, isLoading}) {
   if (isLoading) {
     return <></>;
   }
-  const randomColor = () => ('#' + ((Math.random() * 0xffffff) << 0).toString(16) + '000000').slice(0, 7)
-  console.log(randomColor())
+
   const chartData = pieData
       .filter((value) => value > 0)
       .map((value, index) => ({
           value,
           svg: {
               fill: sliceColor[index],
-              onPress: () => console.log('press', index),
+             
           },
           key: `pie-${index}`,
       }))

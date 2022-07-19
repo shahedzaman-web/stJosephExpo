@@ -1,5 +1,5 @@
-import { DrawerActions, useNavigation } from "@react-navigation/native";
-import { Box, Button, HStack, Text } from "native-base";
+import {  useNavigation } from "@react-navigation/native";
+import {Button, HStack, Text } from "native-base";
 import React from "react";
 import {
   widthPercentageToDP as wp,

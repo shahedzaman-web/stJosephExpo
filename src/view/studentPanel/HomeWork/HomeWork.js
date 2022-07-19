@@ -1,23 +1,32 @@
-import {Box, Center, CheckIcon, FlatList, HStack, Select, Skeleton, Text} from 'native-base';
-import React from 'react';
-import {useSelector} from 'react-redux';
-import AppHeader from '../../../components/AppHeader';
 import {
-    useGetAllHomeworkEvaluationForStudentQuery,
+  Box,
+  Center,
+  CheckIcon,
+  FlatList,
+  HStack,
+  Select,
+  Skeleton,
+  Text,
+} from "native-base";
+import React from "react";
+import { useSelector } from "react-redux";
+import AppHeader from "../../../components/AppHeader";
+import {
+  useGetAllHomeworkEvaluationForStudentQuery,
   useGetAllSubjectQuery,
-} from '../../../store/services/studentApi';
-import colors from '../../../theme/colors';
+} from "../../../store/services/studentApi";
+import colors from "../../../theme/colors";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
-import HomeWorkCard from './HomeWorkCard';
+} from "react-native-responsive-screen";
+import HomeWorkCard from "./HomeWorkCard";
 
 const HomeWork = () => {
-  const [selectedSubject, setSelectedSubject] = React.useState('');
+  const [selectedSubject, setSelectedSubject] = React.useState("");
 
-  const userInfo = useSelector(state => state.auth.userInfo);
-  const {data, isLoading} = useGetAllSubjectQuery({
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  const { data, isLoading } = useGetAllSubjectQuery({
     branchName: userInfo.branch.branchName,
     branchId: userInfo.branch._id,
     sessionName: userInfo.session.sessionName,
@@ -35,14 +44,17 @@ const HomeWork = () => {
   });
 
   if (isLoading) {
-    return <Center safeArea>
-      <Skeleton w={wp("80%")} h={hp("5%")} />
-      <Skeleton w={wp("80%")} h={hp("5%")} />
-      <Skeleton w={wp("80%")} h={hp("5%")} />
-      <Skeleton w={wp("80%")} h={hp("5%")} />
-      <Skeleton w={wp("80%")} h={hp("5%")} />
-    </Center>;
-  }  return (
+    return (
+      <Center safeArea>
+        <Skeleton w={wp("80%")} h={hp("5%")} />
+        <Skeleton w={wp("80%")} h={hp("5%")} />
+        <Skeleton w={wp("80%")} h={hp("5%")} />
+        <Skeleton w={wp("80%")} h={hp("5%")} />
+        <Skeleton w={wp("80%")} h={hp("5%")} />
+      </Center>
+    );
+  }
+  return (
     <Box flex={1} safeArea>
       <AppHeader title="Home Work" />
       <Box p="3">
@@ -50,7 +62,8 @@ const HomeWork = () => {
           space={6}
           justifyContent="space-between"
           w="100%"
-          alignItems={'center'}>
+          alignItems={"center"}
+        >
           <Text bold color={colors.primary}>
             Select Subject
           </Text>
@@ -65,8 +78,9 @@ const HomeWork = () => {
               endIcon: <CheckIcon size="5" />,
             }}
             mt={1}
-            onValueChange={itemValue => setSelectedSubject(itemValue)}>
-            {data?.data?.map(item => (
+            onValueChange={(itemValue) => setSelectedSubject(itemValue)}
+          >
+            {data?.data?.map((item) => (
               <Select.Item
                 key={item._id}
                 label={item.subjectName}
@@ -77,20 +91,20 @@ const HomeWork = () => {
         </HStack>
       </Box>
       <FlatList
-        mt={'2'}
+        mt={"2"}
         data={getHomeWork?.data?.data}
-        renderItem={({item, index}) => (
+        renderItem={({ item, index }) => (
           <HomeWorkCard
             homework={item.homework}
-            evaluationDetails={item.evaluationDetails[0]}
+            evaluationDetails={item?.evaluationDetails[0]}
             index={index}
           />
         )}
-        keyExtractor={index => index.toString()}
+        keyExtractor={(index) => index.toString()}
         showsVerticalScrollIndicator={false}
         bg={colors.primaryLight}
-        borderTopLeftRadius={'30'}
-        borderTopRightRadius={'30'}
+        borderTopLeftRadius={"30"}
+        borderTopRightRadius={"30"}
       />
     </Box>
   );

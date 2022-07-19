@@ -28,11 +28,11 @@ export default function TeacherReport() {
 
   React.useEffect(() => {
     if (data !== undefined && selectedSession !== "" && data.length > 0) {
-      console.log("useGetAttendanceQuery=============>", data[0]?.data);
+    
       setAttendanceData(getTeacherAttendanceData(data[0]?.data));
     }
   }, [data]);
-  console.log("attendanceData=====================>", attendanceData);
+
   const getBranchWiseSession = useGetBranchWiseSessionQuery({
     branchId,
   });

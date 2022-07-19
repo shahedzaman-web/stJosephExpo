@@ -1,4 +1,13 @@
-import { Box, FlatList, HStack, Text, Skeleton, Center } from "native-base";
+import {
+  Box,
+  FlatList,
+  HStack,
+  Text,
+  Skeleton,
+  Center,
+  Select,
+  CheckIcon,
+} from "native-base";
 import React from "react";
 import { useSelector } from "react-redux";
 import { StyleSheet } from "react-native";
@@ -6,7 +15,6 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { Dropdown } from "react-native-element-dropdown";
 
 import {
   useGetExamListQuery,
@@ -21,7 +29,7 @@ const Marks = () => {
   const [selectedExam, setSelectedExam] = React.useState("");
   const [selectedSubject, setSelectedSubject] = React.useState("");
   const [subjectDropdownData, setSubjectDropdownData] = React.useState([]);
-  const [examDropdownData, setExamDropdownData] = React.useState();
+  const [examDropdownData, setExamDropdownData] = React.useState([]);
   const [resultData, setResultData] = React.useState([]);
   const userInfo = useSelector((state) => state.auth.userInfo);
   const { data, isLoading } = useGetAllSubjectQuery({
@@ -51,7 +59,6 @@ const Marks = () => {
   React.useEffect(() => {
     if (res?.data !== undefined) {
       const resp = res?.data.map((item) => {
-     
         return {
           value: item._id,
           label: item.name,
@@ -77,7 +84,7 @@ const Marks = () => {
       const filterData = examMarks?.data?.filter(
         (item) => item.exam._id === selectedExam
       );
-      console.log({ filterData });
+    
       if (filterData !== undefined) {
         setResultData(filterData[0]?.marks);
       }
@@ -95,7 +102,6 @@ const Marks = () => {
     );
   }
 
-  console.log({ subjectDropdownData });
   return (
     <Box flex={1} color={colors.white}>
       <Box p="3">
@@ -108,23 +114,24 @@ const Marks = () => {
           <Text bold color={colors.primary}>
             Select Exam
           </Text>
-          <Dropdown
-            style={styles.dropdown}
-            containerStyle={styles.shadow}
-            data={examDropdownData}
-            maxHeight={200}
-            labelField="label"
-            valueField="value"
-            label="Dropdown"
+          <Select
+            borderColor={colors.primary}
+            selectedValue={selectedExam}
+            minWidth="200"
+            accessibilityLabel="Select Exam"
             placeholder="Select Exam"
-            value={selectedSubject.value}
-            onChange={(item) => {
-              console.log({ item });
-              setSelectedExam(item.value);
+            _selectedItem={{
+              bg: colors.primary,
+              endIcon: <CheckIcon size="5" />,
             }}
-            renderItem={(item) => _renderItem(item)}
-            textError="Error"
-          />
+            mt={1}
+            onValueChange={(itemValue) => setSelectedExam(itemValue)}
+          >
+            {examDropdownData.map((item) => (
+              <Select.Item label={item.label} value={item.value} />
+            ))}
+          </Select>
+         
         </HStack>
         <HStack
           space={6}
@@ -135,22 +142,23 @@ const Marks = () => {
           <Text bold color={colors.primary}>
             Select Subject
           </Text>
-          <Dropdown
-            style={styles.dropdown}
-            containerStyle={styles.shadow}
-            data={subjectDropdownData}
-            maxHeight={200}
-            labelField="label"
-            valueField="value"
-            label="Dropdown"
+          <Select
+            borderColor={colors.primary}
+            selectedValue={selectedSubject}
+            minWidth="200"
+            accessibilityLabel="Select Subject"
             placeholder="Select Subject"
-            value={selectedSubject.value}
-            onChange={(item) => {
-              setSelectedSubject(item.value);
+            _selectedItem={{
+              bg: colors.primary,
+              endIcon: <CheckIcon size="5" />,
             }}
-            renderItem={(item) => _renderItem(item)}
-            textError="Error"
-          />
+            mt={1}
+            onValueChange={(itemValue) => setSelectedSubject(itemValue)}
+          >
+            {subjectDropdownData.map((item) => (
+              <Select.Item label={item.label} value={item.value} />
+            ))}
+          </Select>
         </HStack>
       </Box>
       <FlatList
@@ -173,45 +181,3 @@ const Marks = () => {
 
 export default Marks;
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-    padding: 10,
-    marginVertical: 2,
-  },
-  dropdown: {
-    height: 50,
-    marginVertical: 5,
-    width: wp("50%"),
-    borderColor: "gray",
-    borderWidth: 0.5,
-    borderRadius: 2,
-    paddingHorizontal: 2,
-  },
-  icon: {
-    marginRight: 5,
-  },
-  label: {
-    position: "absolute",
-    backgroundColor: "white",
-    left: 22,
-    top: 8,
-    zIndex: 999,
-    paddingHorizontal: 8,
-    fontSize: 14,
-  },
-  placeholderStyle: {
-    fontSize: 16,
-  },
-  selectedTextStyle: {
-    fontSize: 16,
-  },
-  iconStyle: {
-    width: 20,
-    height: 20,
-  },
-  inputSearchStyle: {
-    height: 40,
-    fontSize: 16,
-  },
-});

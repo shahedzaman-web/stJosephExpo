@@ -1,24 +1,32 @@
-import {Box, Center, FlatList, HStack, Skeleton, Text} from 'native-base';
-import React from 'react';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import {useSelector} from 'react-redux';
-import {Dropdown} from 'react-native-element-dropdown';
-import {StyleSheet} from 'react-native';
+import {
+  Box,
+  Center,
+  CheckIcon,
+  FlatList,
+  HStack,
+  Select,
+  Skeleton,
+  Text,
+} from "native-base";
+import React from "react";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import { useSelector } from "react-redux";
+import { StyleSheet } from "react-native";
 import {
   useGetExamScheduleListQuery,
   useGetOneExamScheduleQuery,
-} from '../../../store/services/studentApi';
-import colors from '../../../theme/colors';
+} from "../../../store/services/studentApi";
+import colors from "../../../theme/colors";
 
-import ScheduleCard from './ScheduleCard';
-import _renderItem from '../../../components/_renderItem';
+import ScheduleCard from "./ScheduleCard";
+import _renderItem from "../../../components/_renderItem";
 
 const Schedule = () => {
   const [selected, setSelected] = React.useState({});
   const [resData, setResData] = React.useState([]);
-  const userInfo = useSelector(state => state.auth.userInfo);
+  const userInfo = useSelector((state) => state.auth.userInfo);
   const [examDropdownData, setExamDropdownData] = React.useState([]);
-  const {data, isLoading} = useGetExamScheduleListQuery({
+  const { data, isLoading } = useGetExamScheduleListQuery({
     branchName: userInfo.branch.branchName,
     branchId: userInfo.branch._id,
     sessionName: userInfo.session.sessionName,
@@ -27,13 +35,13 @@ const Schedule = () => {
     sectionId: userInfo.section._id,
   });
   const res = useGetOneExamScheduleQuery({
-    id: selected.value,
+    id: selected,
     branchName: userInfo.branch.branchName,
     sessionName: userInfo.session.sessionName,
   });
   React.useEffect(() => {
     if (data !== undefined) {
-      const res = data[0].data.map(item => {
+      const res = data[0].data.map((item) => {
         return {
           value: item._id,
           label: item.exam.name,
@@ -42,24 +50,23 @@ const Schedule = () => {
       setExamDropdownData(res);
     }
   }, [data]);
-  console.log('examDropdownData========================>', examDropdownData);
+ 
   React.useEffect(() => {
-    if (selected !== '' && res?.data) {
+    if (selected !== "" && res?.data) {
       const examSchedule = res?.data[0].examSchedule;
       //console.log({examSchedule});
       setResData(examSchedule);
     }
   }, [res?.data, selected]);
 
-
   if (isLoading) {
     return (
       <Center>
-        <Skeleton my="2" w={wp('80%')} text />
-        <Skeleton my="2" w={wp('80%')} text />
-        <Skeleton my="2" w={wp('80%')} text />
-        <Skeleton my="2" w={wp('80%')} text />
-        <Skeleton my="2" w={wp('80%')} text />
+        <Skeleton my="2" w={wp("80%")} text />
+        <Skeleton my="2" w={wp("80%")} text />
+        <Skeleton my="2" w={wp("80%")} text />
+        <Skeleton my="2" w={wp("80%")} text />
+        <Skeleton my="2" w={wp("80%")} text />
       </Center>
     );
   }
@@ -71,40 +78,41 @@ const Schedule = () => {
           space={6}
           justifyContent="space-between"
           w="100%"
-          alignItems={'center'}>
+          alignItems={"center"}
+        >
           <Text bold color={colors.primary}>
-            Select
+            Select Schedule
           </Text>
-          <Dropdown
-            style={styles.dropdown}
-            containerStyle={styles.shadow}
-            data={examDropdownData}
-         
-            maxHeight={200}
-            labelField="label"
-            valueField="value"
-            label="Dropdown"
-            placeholder="Select Branch"
-            value={selected.value}
-            onChange={item => {
-              setSelected(item);
+          <Select
+            borderColor={colors.primary}
+            selectedValue={selected}
+            minWidth="200"
+            accessibilityLabel="Choose Schedule"
+            placeholder="Choose Schedule"
+            _selectedItem={{
+              bg: colors.primary,
+              endIcon: <CheckIcon size="5" />,
             }}
-            renderItem={item => _renderItem(item)}
-            textError="Error"
-          />
+            mt={1}
+            onValueChange={(itemValue) => setSelected(itemValue)}
+          >
+            {examDropdownData.map((item) => (
+              <Select.Item label={item.label} value={item.value} />
+            ))}
+          </Select>
         </HStack>
       </Box>
       <FlatList
         bg={colors.primaryLight}
         py="2"
         showsVerticalScrollIndicator={false}
-        borderTopLeftRadius={'30'}
-        borderTopRightRadius={'30'}
+        borderTopLeftRadius={"30"}
+        borderTopRightRadius={"30"}
         data={resData}
-        renderItem={({item, index}) => (
+        renderItem={({ item, index }) => (
           <ScheduleCard item={item} index={index} />
         )}
-        keyExtractor={item => item.subject}
+        keyExtractor={(item) => item.subject}
         contentContainerStyle={{ paddingBottom: 20 }}
       />
     </Box>
@@ -115,13 +123,13 @@ export default Schedule;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 16,
   },
   dropdown: {
     height: 50,
-    width: wp('50%'),
-    borderColor: 'gray',
+    width: wp("50%"),
+    borderColor: "gray",
     borderWidth: 0.5,
     borderRadius: 2,
     paddingHorizontal: 2,
@@ -130,8 +138,8 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   label: {
-    position: 'absolute',
-    backgroundColor: 'white',
+    position: "absolute",
+    backgroundColor: "white",
     left: 22,
     top: 8,
     zIndex: 999,

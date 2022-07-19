@@ -195,14 +195,73 @@ const studentApi = appApi.injectEndpoints({
           studentId,
           payingMonth,
         } = data;
-        const url =`/getStudentFeesSummary?page=1&limit=25&branchName=${branchName}&branchId=${branchId}&sessionName=${sessionName}&sessionId=${sessionId}&classId=${classId}&sectionId=${sectionId}&payingMonth=${payingMonth}&studentId=${studentId}`
-        console.log({url})
+        const url = `/getStudentFeesSummary?page=1&limit=25&branchName=${branchName}&branchId=${branchId}&sessionName=${sessionName}&sessionId=${sessionId}&classId=${classId}&sectionId=${sectionId}&payingMonth=${payingMonth}&studentId=${studentId}`;
+        console.log({ url });
         return {
           url: url,
           method: "GET",
           validateStatus: (response, result) =>
             response.status === 200 && !result.isError, // Our tricky API always returns a 200, but sets an `isError` property when there is an error.
         };
+      },
+    }),
+    getStudentPaymentStatus: builder.query({
+      query: (data) => {
+        const { studentId, branchName, sessionName } = data;
+        return {
+          url: `/getStudentPaymentStatus?studentId=${studentId}&branchName=${branchName}&sessionName=${sessionName}`,
+          method: "GET",
+          validateStatus: (response, result) =>
+            response.status === 200 && !result.isError, // Our tricky API always returns a 200, but sets an `isError` property when there is an error.
+        };
+      },
+    }),
+    getFeesSetupForCollection: builder.query({
+      query: (data) => {
+        const { branchId, sessionId, sectionId, classId } = data;
+        return {
+          url: `/getFeesSetupForCollection?branchId=${branchId}&sessionId=${sessionId}&classId=${classId}&sectionId=${sectionId}`,
+          method: "GET",
+          validateStatus: (response, result) =>
+            response.status === 200 && !result.isError, // Our tricky API always returns a 200, but sets an `isError` property when there is an error.
+        };
+      },
+    }),
+    sslRequest: builder.query({
+      query: (data) => {
+        const {
+          amount,
+          refId,
+          studentName,
+          studentPhone,
+          studentId,
+          billingMonth,
+          branchId,
+          sessionId,
+          regNo,
+          monthlyFees,
+          fine,
+          roll,
+          classId,
+          sectionId,
+        } = data;
+        return {
+          url: `/ssl-request?amount=${amount}&refId=${refId}&studentName=${studentName}&studentPhone=${studentPhone}&studentId=${studentId}&billingMonth=${billingMonth}&branchId=${branchId}&sessionId=${sessionId}&regNo=${regNo}&monthlyFees=${monthlyFees}&fine=${fine}&roll=${roll}&classId=${classId}&sectionId=${sectionId}`,
+          method: "GET",
+          validateStatus: (response, result) =>
+            response.status === 200 && !result.isError, // Our tricky API always returns a 200, but sets an `isError` property when there is an error.
+            transformResponse: (rawResult, meta) => {
+              console.log({ rawResult, meta });
+              if (meta.status === 200) {
+                return rawResult
+              }
+              return {
+                isError: true,
+                error: rawResult,
+              };
+            }
+        };
+
       },
     }),
   }),
@@ -231,4 +290,7 @@ export const {
   useGetStudentsAttendanceMonthWistQuery,
   useGetStudentEventQuery,
   useGetStudentFeesSummaryQuery,
+  useGetStudentPaymentStatusQuery,
+  useGetFeesSetupForCollectionQuery,
+  useSslRequestQuery,
 } = studentApi;

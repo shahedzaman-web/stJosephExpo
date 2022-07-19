@@ -18,7 +18,6 @@ export default function AddMarks() {
   const [getSubmitData, setGetSubmitData] = React.useState({});
   const [addSubjectWiseMarks, {isLoading}] = useAddSubjectWiseMarksMutation();
 
-  console.log("examScheduleData==========================>", examScheduleData);
 
   const handleSubmit = async () => {
     try {

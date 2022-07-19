@@ -119,7 +119,7 @@ export default function SelfAttendance() {
         date: today,
       };
       const {data,error}= await manageEmployeeInOut(payload);
-      console.log("data=====================================>", data,error);
+    //  console.log("data=====================================>", data,error);
       if(data.message ==="Login Successfully"){
         Toast.show({
           type: "success",
@@ -163,7 +163,7 @@ export default function SelfAttendance() {
       date: today,
     };
     const {data,error}= await manageEmployeeInOut(payload);
-    console.log("data=====================================>", data,error);
+    //console.log("data=====================================>", data,error);
     if(data.message ==="Login Successfully"){
       Toast.show({
         type: "success",

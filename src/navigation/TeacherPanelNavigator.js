@@ -57,7 +57,7 @@ const TeacherTabNavigator = () => {
         }}
       />
       <TeacherTab.Screen
-        name="Academic"
+        name="AcademicSchedule"
         component={Academic}
         options={{
           tabBarLabel: "Academic",

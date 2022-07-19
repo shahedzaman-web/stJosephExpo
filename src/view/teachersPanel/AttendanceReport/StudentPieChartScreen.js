@@ -8,7 +8,7 @@ import colors from "../../../theme/colors";
 import React from "react";
 export default function StudentPieChartScreen({ data, isLoading }) {
   const [pieData, setPieData] = React.useState([]);
-console.log("data===================================>",data);
+
   const sliceColor = ["#3dcf8b", "#fa4e71", "#fec502"];
   const renderPieChartData = React.useCallback(() => {
     if (data !== undefined) {

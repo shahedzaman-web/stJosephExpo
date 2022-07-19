@@ -29,9 +29,12 @@ import LeaveApplication from "../view/studentPanel/LeaveApplication/LeaveApplica
 import HomeWork from "../view/studentPanel/HomeWork/HomeWork";
 import Notification from "../view/studentPanel/Notification/Notification";
 import TeacherList from "../view/studentPanel/TeacherList/TeacherList";
+import Cancel from "../view/studentPanel/OnlinePayment/Cancel";
+import Failed from "../view/studentPanel/OnlinePayment/Failed";
+import Success from "../view/studentPanel/OnlinePayment/Success";
+import OnlinePayment from "../view/studentPanel/OnlinePayment/OnlinePayment";
 
 const StudentAppStack = createNativeStackNavigator();
-
 const StudentDrawerStack = createDrawerNavigator();
 const StudentTab = createBottomTabNavigator();
 
@@ -154,6 +157,10 @@ const StudentPanelNavigator = () => {
         component={LeaveApplication}
       />
       <StudentAppStack.Screen name="Notification" component={Notification} />
+      <StudentAppStack.Screen name="Cancel" component={Cancel} />
+      <StudentAppStack.Screen name="Failed" component={Failed} />
+      <StudentAppStack.Screen name="OnlinePayment" component={OnlinePayment} />
+      <StudentAppStack.Screen name="Success" component={Success} />
     </StudentAppStack.Navigator>
   );
 };

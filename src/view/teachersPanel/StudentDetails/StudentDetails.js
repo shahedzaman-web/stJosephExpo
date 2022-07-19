@@ -41,7 +41,7 @@ const StudentDetails = () => {
     sectionId: selectedSection,
     sessionName: sessionName,
   });
-  console.log("getAllStudent===========================>", getAllStudent);
+
   React.useEffect(() => {
     if (getAllStudent.data !== undefined) {
       setStudentData(getAllStudent.data.data);

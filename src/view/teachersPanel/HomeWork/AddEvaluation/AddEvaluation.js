@@ -177,13 +177,7 @@ export default function AddEvaluation() {
           evaluationDetails: evaluationData,
         };
         const { data, error } = await addHomeworkEvaluation(payload);
-        console.log("payload===========================>", payload);
-
-        console.log(
-          "addHomeworkEvaluation===================================>",
-          data,
-          error
-        );
+    
         if (data?.message === "Successfully Added") {
           Toast.show({
             type: "success",

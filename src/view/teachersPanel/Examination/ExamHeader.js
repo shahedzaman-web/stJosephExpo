@@ -73,11 +73,7 @@ export default function ExamHeader({
     examId: selectedExam,
     subjectId: selectedSubject,
   });
-  console.log(
-    "getFilterWiseExamMarks=======================================>",
-    getFilterWiseExamMarks?.data,
-    getFilterWiseExamMarks?.error
-  );
+
   React.useEffect(() => {
     if (getBranchWiseSession?.data !== undefined) {
       setSessionData(getBranchWiseSession?.data?.data);
@@ -128,10 +124,7 @@ export default function ExamHeader({
   }, [getSessionName]);
   React.useEffect(() => {
     if (getFilterWiseExamMarks?.data !== undefined && type === "Marks") {
-      console.log(
-        "getFilterWiseExamMarks=======================================>",
-        getFilterWiseExamMarks?.data[0]?.marks
-      );
+
       setExamMarksData(getFilterWiseExamMarks?.data[0]?.marks);
     }
   }, [getFilterWiseExamMarks?.data]);
