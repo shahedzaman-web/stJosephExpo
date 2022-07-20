@@ -12,6 +12,7 @@ import {
   FlatList,
   Button,
   Spinner,
+  ScrollView
 } from "native-base";
 import {
   widthPercentageToDP as wp,
@@ -142,6 +143,9 @@ export default function StudentAttendance() {
   };
   return (
     <Box flex={"1"}>
+    <ScrollView
+   
+    >
       <Box>
         <Box w={wp("100%")} justifyContent="center" alignItems="center">
           <HStack
@@ -322,6 +326,7 @@ export default function StudentAttendance() {
           </Text>
         )}
       </Button>
+      </ScrollView>
     </Box>
   );
 }

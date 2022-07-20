@@ -135,7 +135,7 @@ const studentApi = appApi.injectEndpoints({
           studentId,
         } = data;
         return {
-          url: `/getAllHomeworkEvaluationForStudent?page=1&limit=1&branchName=${branchName}&branchId=${branchId}&sessionName=${sessionName}&sessionId=${sessionId}&classId=${classId}&sectionId=${sectionId}&subjectId=${subjectId}&studentId=${studentId}`,
+          url: `/getHomeWorkStudent?page=1&limit=1&branchName=${branchName}&branchId=${branchId}&sessionName=${sessionName}&sessionId=${sessionId}&classId=${classId}&sectionId=${sectionId}&subjectId=${subjectId}&studentId=${studentId}`,
           method: "GET",
           validateStatus: (response, result) =>
             response.status === 200 && !result.isError, // Our tricky API always returns a 200, but sets an `isError` property when there is an error.

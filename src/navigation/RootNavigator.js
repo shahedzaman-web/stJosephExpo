@@ -8,6 +8,7 @@ import AppLoading from "expo-app-loading";
 
 import { useSelector } from "react-redux";
 import { useGetAllBranchForStudentQuery } from "../store/services/studentApi";
+import ViewAttachment from "../view/ViewAttachment/ViewAttachment";
 const RootStack = createNativeStackNavigator();
 const AppStack = createNativeStackNavigator();
 
@@ -22,6 +23,8 @@ const AppNavigator = () => {
     >
       <AppStack.Screen name="Student" component={StudentPanelNavigator} />
       <AppStack.Screen name="Teacher" component={TeacherPanelNavigator} />
+      <AppStack.Screen name="ViewAttachment" component={ViewAttachment} />
+
     </AppStack.Navigator>
   );
 };

@@ -42,18 +42,7 @@ const HomeWork = () => {
     subjectId: selectedSubject,
     studentId: userInfo._id,
   });
-
-  if (isLoading) {
-    return (
-      <Center safeArea>
-        <Skeleton w={wp("80%")} h={hp("5%")} />
-        <Skeleton w={wp("80%")} h={hp("5%")} />
-        <Skeleton w={wp("80%")} h={hp("5%")} />
-        <Skeleton w={wp("80%")} h={hp("5%")} />
-        <Skeleton w={wp("80%")} h={hp("5%")} />
-      </Center>
-    );
-  }
+console.log("getHomeWork=============>",getHomeWork?.data?.data)
   return (
     <Box flex={1} safeArea>
       <AppHeader title="Home Work" />
@@ -90,13 +79,24 @@ const HomeWork = () => {
           </Select>
         </HStack>
       </Box>
+      {
+        isLoading ? ( 
+          <Center safeArea>
+        <Skeleton w={wp("80%")} h={hp("5%")} />
+        <Skeleton w={wp("80%")} h={hp("5%")} />
+        <Skeleton w={wp("80%")} h={hp("5%")} />
+        <Skeleton w={wp("80%")} h={hp("5%")} />
+        <Skeleton w={wp("80%")} h={hp("5%")} />
+      </Center>
+        )
+      : (
       <FlatList
         mt={"2"}
         data={getHomeWork?.data?.data}
         renderItem={({ item, index }) => (
           <HomeWorkCard
-            homework={item.homework}
-            evaluationDetails={item?.evaluationDetails[0]}
+            homework={item}
+           
             index={index}
           />
         )}
@@ -105,7 +105,7 @@ const HomeWork = () => {
         bg={colors.primaryLight}
         borderTopLeftRadius={"30"}
         borderTopRightRadius={"30"}
-      />
+      />)}
     </Box>
   );
 };

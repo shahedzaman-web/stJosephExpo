@@ -19,7 +19,6 @@ import {
 import colors from "../../../theme/colors";
 
 import ScheduleCard from "./ScheduleCard";
-import _renderItem from "../../../components/_renderItem";
 
 const Schedule = () => {
   const [selected, setSelected] = React.useState({});

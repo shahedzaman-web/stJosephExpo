@@ -13,7 +13,7 @@ import {
 import React from "react";
 import colors from "../theme/colors";
 import {
-  AntDesign,
+  Foundation,
   FontAwesome,
   FontAwesome5,
   Feather,
@@ -162,7 +162,7 @@ const TeacherDrawerContains = () => {
               fontSize="md"
               color={colors.primary}
             >
-              Academic
+              Academic Schedule
             </Text>
           </HStack>
         </Pressable>
@@ -256,8 +256,8 @@ const TeacherDrawerContains = () => {
           }}
           variant={"unstyled"}
           leftIcon={
-            <Ionicons
-              name="ios-school-sharp"
+            <Foundation
+              name="results"
               size={wp("4%")}
               color={colors.primary}
             />

@@ -23,7 +23,6 @@ import {
 } from "../../../store/services/studentApi";
 import colors from "../../../theme/colors";
 import MarksCard from "./MarksCard";
-import _renderItem from "../../../components/_renderItem";
 
 const Marks = () => {
   const [selectedExam, setSelectedExam] = React.useState("");

@@ -31,7 +31,6 @@ import Toast from "react-native-toast-message";
 import { useSigninUserMutation } from "../../store/services/authApi";
 
 import { useSelector } from "react-redux";
-import _renderItem from "../../components/_renderItem";
 
 const Login = ({ navigation }) => {
   const branchData = useSelector((state) => state.branchData.branchData);
