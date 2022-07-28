@@ -1,7 +1,7 @@
 import React from "react";
 import PDFReader from "rn-pdf-reader-js";
 import { Box, HStack, Button, Text, Image } from "native-base";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import {  MaterialIcons } from "@expo/vector-icons";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -10,8 +10,7 @@ import colors from "../../theme/colors";
 export default function ViewAttachment({ navigation, route }) {
   const { file } = route.params;
   let fileFormat = file.split(".").pop();
-  console.log({ fileFormat });
-  console.log({ file });
+
   return (
     <Box flex={"1"}>
       <HStack
@@ -31,7 +30,7 @@ export default function ViewAttachment({ navigation, route }) {
           color={colors.white}
           fontSize="lg"
         >
-          View Attachment
+          View Attachment / File
         </Text>
         <Box />
       </HStack>
@@ -46,7 +45,9 @@ export default function ViewAttachment({ navigation, route }) {
           width={wp("100%")}
           height={hp("90%")}
           resizeMode="contain"
-         alt="attachment" source={{ uri: file }} />
+          alt="attachment"
+          source={{ uri: file }}
+        />
       )}
     </Box>
   );

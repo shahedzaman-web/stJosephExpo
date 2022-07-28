@@ -42,7 +42,7 @@ const HomeWork = () => {
     subjectId: selectedSubject,
     studentId: userInfo._id,
   });
-console.log("getHomeWork=============>",getHomeWork?.data?.data)
+//console.log("getHomeWork=============>",getHomeWork?.data?.data)
   return (
     <Box flex={1} safeArea>
       <AppHeader title="Home Work" />

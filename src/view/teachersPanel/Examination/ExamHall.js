@@ -15,7 +15,7 @@ export default function ExamHall() {
   console.log({ error });
   React.useEffect(() => {
     if (data !== undefined) {
-      console.log("data=====================>", data?.data);
+    //  console.log("data=====================>", data?.data);
       setHallData(data?.data);
     }
   }, [data]);

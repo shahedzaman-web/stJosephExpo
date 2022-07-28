@@ -25,7 +25,7 @@ const TabComponent = () => {
     },
     {
       key: "second",
-      title: "Teacher Report",
+      title: "Self Report",
     },
  
   ]);

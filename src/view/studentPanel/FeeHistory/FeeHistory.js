@@ -24,7 +24,7 @@ const TabComponent = () => {
     },
     {
       key: "second",
-      title: "OnlinePayment",
+      title: "Online Payment",
     },
   ]);
 

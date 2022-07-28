@@ -147,7 +147,7 @@ const TeacherDrawerContains = () => {
           variant={"unstyled"}
           w="100%"
           onPress={() =>
-            navigation.navigate("TeacherTab", { screen: "Academic" })
+            navigation.navigate("TeacherTab", { screen: "AcademicSchedule" })
           }
         >
           <HStack alignItems={"center"} pl="3">

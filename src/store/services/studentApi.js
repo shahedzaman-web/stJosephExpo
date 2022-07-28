@@ -196,7 +196,7 @@ const studentApi = appApi.injectEndpoints({
           payingMonth,
         } = data;
         const url = `/getStudentFeesSummary?page=1&limit=25&branchName=${branchName}&branchId=${branchId}&sessionName=${sessionName}&sessionId=${sessionId}&classId=${classId}&sectionId=${sectionId}&payingMonth=${payingMonth}&studentId=${studentId}`;
-        console.log({ url });
+     
         return {
           url: url,
           method: "GET",
@@ -251,7 +251,7 @@ const studentApi = appApi.injectEndpoints({
           validateStatus: (response, result) =>
             response.status === 200 && !result.isError, // Our tricky API always returns a 200, but sets an `isError` property when there is an error.
             transformResponse: (rawResult, meta) => {
-              console.log({ rawResult, meta });
+             
               if (meta.status === 200) {
                 return rawResult
               }

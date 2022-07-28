@@ -1,4 +1,4 @@
-import { Box, Button, Image, Modal, Text } from "native-base";
+import { Box, Button, Text } from "native-base";
 import React from "react";
 import {
   widthPercentageToDP as wp,

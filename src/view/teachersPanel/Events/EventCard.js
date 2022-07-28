@@ -1,20 +1,18 @@
-import { Box, HStack, Image, Modal, Button, Text } from "native-base";
+import { Box, HStack, Button, Text } from "native-base";
 import React from "react";
 import bgCardColor from "../../../theme/bgCardColor";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import bgCardLighterColor from "../../../theme/bgCardLighterColor";
 import colors from "../../../theme/colors";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import baseURL from "../../../utils/baseURL";
+import { useNavigation } from "@react-navigation/native";
 
 const EventCard = ({ index, item }) => {
-  const [modalVisible, setModalVisible] = React.useState(false);
+  const navigation = useNavigation();
+  const file = baseURL + "/eventPhoto/" + item.coverImage;
   return (
     <Box
-      h={hp("32%")}
       borderLeftColor={bgCardColor[index]}
       borderLeftWidth={10}
       borderRadius={"md"}
@@ -46,46 +44,19 @@ const EventCard = ({ index, item }) => {
       <Text bold color={colors.darkGary} fontSize="sm">
         Created By: {item.createdBy.employeeName}
       </Text>
-      <Button onPress={() => setModalVisible(true)} my="2" bg={colors.primary}>
+      <Button
+        onPress={() =>
+          navigation.navigate("ViewAttachment", {
+            file,
+          })
+        }
+        my="2"
+        bg={colors.primary}
+      >
         <Text fontSize="md" bold color={colors.white}>
           View Events
         </Text>
       </Button>
-      <Modal
-        isOpen={modalVisible}
-        onClose={() => setModalVisible(false)}
-        avoidKeyboard
-        justifyContent="center"
-        bottom="-10"
-        size="xl"
-      >
-        <Modal.Content>
-          <Modal.CloseButton />
-          <Modal.Header>View Events</Modal.Header>
-          <Modal.Body>
-            <Image
-              alt={"events"}
-              source={{ uri: baseURL + "/eventPhoto/" + item.coverImage }}
-              style={{
-                width: wp("90%"),
-                height: hp("60%"),
-                alignSelf: "center",
-                resizeMode: "contain",
-              }}
-            />
-          </Modal.Body>
-          <Modal.Footer>
-            <Button
-              flex="1"
-              onPress={() => {
-                setModalVisible(false);
-              }}
-            >
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal.Content>
-      </Modal>
     </Box>
   );
 };

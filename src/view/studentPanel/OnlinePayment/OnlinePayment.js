@@ -13,7 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 export default function OnlinePayment({ route }) {
   const { payload } = route.params;
   const { isLoading, data, error } = useSslRequestQuery(payload);
-  console.log({ data, error });
+ 
   const navigation = useNavigation();
   const handleWebViewNavigationStateChange = (e) => {
     let url = e.title;

@@ -26,13 +26,8 @@ export default function TeacherReport() {
   const userInfo = useSelector((state) => state.auth.userInfo);
   const branchId = userInfo.branch._id;
 
-  React.useEffect(() => {
-    if (data !== undefined && selectedSession !== "" && data.length > 0) {
-    
-      setAttendanceData(getTeacherAttendanceData(data[0]?.data));
-    }
-  }, [data]);
 
+  // console.log("attendanceData", attendanceData);
   const getBranchWiseSession = useGetBranchWiseSessionQuery({
     branchId,
   });
@@ -44,7 +39,19 @@ export default function TeacherReport() {
     employeeId: userInfo._id,
     month: selectedMonth,
   });
-
+  console.log("data==========>", data);
+  React.useEffect(() => {
+    if (data !== undefined) {
+      if (data.length > 0) {
+        let res = getTeacherAttendanceData(data[0]?.data);
+       
+        setAttendanceData(res);
+      }
+      else{
+        setAttendanceData([]);
+      }
+    }
+  }, [selectedSession, data]);
   React.useEffect(() => {
     if (getBranchWiseSession?.data !== undefined) {
       setSessionData(getBranchWiseSession?.data?.data);
@@ -99,10 +106,10 @@ export default function TeacherReport() {
           </Select>
         )}
       </HStack>
-        <Box w="100%" my="3">
-      {isLoading ? (
-        <Skeleton style={{ width: wp("100%"),height: hp("40%") }} text />
-      ) : (
+      <Box w="100%" my="3">
+        {isLoading ? (
+          <Skeleton style={{ width: wp("100%"), height: hp("40%") }} text />
+        ) : (
           <Calendar
             onMonthChange={(month) => {
               setSelectedMonth(month.dateString);
@@ -110,8 +117,8 @@ export default function TeacherReport() {
             markingType={"period"}
             markedDates={attendanceData}
           />
-      )}
-        </Box>
+        )}
+      </Box>
     </Box>
   );
 }

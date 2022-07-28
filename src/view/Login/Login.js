@@ -54,7 +54,7 @@ const Login = ({ navigation }) => {
         setIsLoading(true);
         let payload;
         let branchName = branchData.find((item) => item.value === selectBranch);
-        console.log({ branchName });
+   
         if (value === "student") {
           payload = {
             branchName: branchName.label,

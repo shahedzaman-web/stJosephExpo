@@ -12,7 +12,8 @@ import {
   FlatList,
   Button,
   Spinner,
-  ScrollView
+  ScrollView,
+  Center,
 } from "native-base";
 import {
   widthPercentageToDP as wp,
@@ -111,7 +112,6 @@ export default function StudentAttendance() {
     setDatePickerVisible(false);
     setSelectedDay(moment(date).format("YYYY-MM-DD"));
   };
-
   const handleSubmit = async () => {
     try {
       const payload = {
@@ -125,15 +125,24 @@ export default function StudentAttendance() {
         attendanceDetails: attendanceDetails,
       };
       const { data, error } = await addStudentAttendance(payload);
-    
-      if (data.message === "Successfully Added") {
+      console.log("error", error);
+      if (data?.message === "Successfully Added") {
         Toast.show({
           type: "success",
           text1: "Successfully Added",
         });
+
+        setAttendanceDetails([]);
+        setSelectedDay(moment(new Date()).format("YYYY-MM-DD"));
+        setSelectedSession("");
+        setSelectedClass("");
+        setSelectedSection("");
+        setSessionName("");
+        setStudentData([]);
+        getStudentAsFilter.refetch();
       } else {
         Toast.show({
-          type: "danger",
+          type: "error",
           text1: "Something went wrong",
         });
       }
@@ -141,191 +150,204 @@ export default function StudentAttendance() {
       console.log(err);
     }
   };
+
   return (
     <Box flex={"1"}>
-    <ScrollView
-   
-    >
-      <Box>
-        <Box w={wp("100%")} justifyContent="center" alignItems="center">
-          <HStack
-            h={hp("8%")}
-            w={"90%"}
-            alignItems={"center"}
-            justifyContent={"space-between"}
-          >
-            <Text bold fontSize={"lg"} color={colors.primary}>
-              Select Session
-            </Text>
-            {getBranchWiseSession?.isLoading ? (
-              <Skeleton style={{ width: wp("50%") }} text />
-            ) : (
-              <Select
-                borderColor={colors.primary}
-                selectedValue={selectedSession}
-                minWidth="200"
-                accessibilityLabel="Choose Session"
-                placeholder="Choose Session"
-                _selectedItem={{
-                  bg: "teal.600",
-                  endIcon: <CheckIcon size="5" />,
-                }}
-                mt={1}
-                onValueChange={(itemValue) => setSelectedSession(itemValue)}
-              >
-                {sessionData.map((item) => (
-                  <Select.Item
-                    key={item._id}
-                    value={item._id}
-                    label={item.sessionName}
-                  />
-                ))}
-              </Select>
-            )}
-          </HStack>
-          <HStack
-            h={hp("8%")}
-            w={"90%"}
-            alignItems={"center"}
-            justifyContent={"space-between"}
-          >
-            <Text bold fontSize={"lg"} color={colors.primary}>
-              Select Class
-            </Text>
-            {getSessionWiseClass?.isLoading ? (
-              <Skeleton style={{ width: wp("50%") }} text />
-            ) : (
-              <Select
-                borderColor={colors.primary}
-                selectedValue={selectedClass}
-                minWidth="200"
-                accessibilityLabel="Choose Class"
-                placeholder="Choose Class"
-                _selectedItem={{
-                  bg: "teal.600",
-                  endIcon: <CheckIcon size="5" />,
-                }}
-                mt={1}
-                onValueChange={(itemValue) => setSelectedClass(itemValue)}
-              >
-                {classData.map((item) => (
-                  <Select.Item
-                    key={item._id}
-                    value={item._id}
-                    label={item.className}
-                  />
-                ))}
-              </Select>
-            )}
-          </HStack>
-          <HStack
-            h={hp("8%")}
-            w={"90%"}
-            alignItems={"center"}
-            justifyContent={"space-between"}
-          >
-            <Text bold fontSize={"lg"} color={colors.primary}>
-              Select Section
-            </Text>
-            {getClassWiseSection?.isLoading ? (
-              <Skeleton style={{ width: wp("50%") }} text />
-            ) : (
-              <Select
-                borderColor={colors.primary}
-                selectedValue={selectedSection}
-                minWidth="200"
-                accessibilityLabel="Choose Section"
-                placeholder="Choose Section"
-                _selectedItem={{
-                  bg: "teal.600",
-                  endIcon: <CheckIcon size="5" />,
-                }}
-                mt={1}
-                onValueChange={(itemValue) => setSelectedSection(itemValue)}
-              >
-                {sectionData?.map((item) => (
-                  <Select.Item
-                    key={item._id}
-                    value={item._id}
-                    label={item.sectionName}
-                  />
-                ))}
-              </Select>
-            )}
-          </HStack>
-          <HStack
-            h={hp("8%")}
-            w={"90%"}
-            alignItems={"center"}
-            justifyContent={"space-between"}
-          >
-            <Text bold fontSize={"lg"} color={colors.primary}>
-              Select date
-            </Text>
-            <Button
-              variant={"unstyled"}
-              onPress={() => setDatePickerVisible(true)}
+      <ScrollView>
+        <Box>
+          <Box w={wp("100%")} justifyContent="center" alignItems="center">
+            <HStack
+              h={hp("8%")}
+              w={"90%"}
+              alignItems={"center"}
+              justifyContent={"space-between"}
             >
-              <HStack>
-                <FontAwesome name="calendar" size={24} color={colors.primary} />
-                <Text ml="2" color={colors.primary}>
-                  {selectedDay}
-                </Text>
-              </HStack>
-            </Button>
+              <Text bold fontSize={"lg"} color={colors.primary}>
+                Select Session
+              </Text>
+              {getBranchWiseSession?.isLoading ? (
+                <Skeleton style={{ width: wp("50%") }} text />
+              ) : (
+                <Select
+                  borderColor={colors.primary}
+                  selectedValue={selectedSession}
+                  minWidth="200"
+                  accessibilityLabel="Choose Session"
+                  placeholder="Choose Session"
+                  _selectedItem={{
+                    bg: "teal.600",
+                    endIcon: <CheckIcon size="5" />,
+                  }}
+                  mt={1}
+                  onValueChange={(itemValue) => setSelectedSession(itemValue)}
+                >
+                  {sessionData.map((item) => (
+                    <Select.Item
+                      key={item._id}
+                      value={item._id}
+                      label={item.sessionName}
+                    />
+                  ))}
+                </Select>
+              )}
+            </HStack>
+            <HStack
+              h={hp("8%")}
+              w={"90%"}
+              alignItems={"center"}
+              justifyContent={"space-between"}
+            >
+              <Text bold fontSize={"lg"} color={colors.primary}>
+                Select Class
+              </Text>
+              {getSessionWiseClass?.isLoading ? (
+                <Skeleton style={{ width: wp("50%") }} text />
+              ) : (
+                <Select
+                  borderColor={colors.primary}
+                  selectedValue={selectedClass}
+                  minWidth="200"
+                  accessibilityLabel="Choose Class"
+                  placeholder="Choose Class"
+                  _selectedItem={{
+                    bg: "teal.600",
+                    endIcon: <CheckIcon size="5" />,
+                  }}
+                  mt={1}
+                  onValueChange={(itemValue) => setSelectedClass(itemValue)}
+                >
+                  {classData.map((item) => (
+                    <Select.Item
+                      key={item._id}
+                      value={item._id}
+                      label={item.className}
+                    />
+                  ))}
+                </Select>
+              )}
+            </HStack>
+            <HStack
+              h={hp("8%")}
+              w={"90%"}
+              alignItems={"center"}
+              justifyContent={"space-between"}
+            >
+              <Text bold fontSize={"lg"} color={colors.primary}>
+                Select Section
+              </Text>
+              {getClassWiseSection?.isLoading ? (
+                <Skeleton style={{ width: wp("50%") }} text />
+              ) : (
+                <Select
+                  borderColor={colors.primary}
+                  selectedValue={selectedSection}
+                  minWidth="200"
+                  accessibilityLabel="Choose Section"
+                  placeholder="Choose Section"
+                  _selectedItem={{
+                    bg: "teal.600",
+                    endIcon: <CheckIcon size="5" />,
+                  }}
+                  mt={1}
+                  onValueChange={(itemValue) => setSelectedSection(itemValue)}
+                >
+                  {sectionData?.map((item) => (
+                    <Select.Item
+                      key={item._id}
+                      value={item._id}
+                      label={item.sectionName}
+                    />
+                  ))}
+                </Select>
+              )}
+            </HStack>
+            <HStack
+              h={hp("8%")}
+              w={"90%"}
+              alignItems={"center"}
+              justifyContent={"space-between"}
+            >
+              <Text bold fontSize={"lg"} color={colors.primary}>
+                Select date
+              </Text>
+              <Button
+                variant={"unstyled"}
+                onPress={() => setDatePickerVisible(true)}
+              >
+                <HStack>
+                  <FontAwesome
+                    name="calendar"
+                    size={24}
+                    color={colors.primary}
+                  />
+                  <Text ml="2" color={colors.primary}>
+                    {selectedDay}
+                  </Text>
+                </HStack>
+              </Button>
 
-            <DateTimePickerModal
-              isVisible={datePickerVisible}
-              mode="date"
-              onConfirm={handleConfirmDate}
-              onCancel={() => setDatePickerVisible(false)}
-            />
-          </HStack>
+              <DateTimePickerModal
+                isVisible={datePickerVisible}
+                mode="date"
+                onConfirm={handleConfirmDate}
+                onCancel={() => setDatePickerVisible(false)}
+              />
+            </HStack>
+          </Box>
         </Box>
-      </Box>
-      {getStudentAsFilter?.isLoading && studentData.length !== 0 ? (
-        <Box></Box>
-      ) : (
-        <FlatList
-          flex={1}
-          mt={"6"}
-          px="3"
-          showsVerticalScrollIndicator={false}
-          bg={colors.primaryLight}
-          borderTopLeftRadius={"30"}
-          borderTopRightRadius={"30"}
-          w="100%"
-          data={studentData}
-          renderItem={({ item, index }) => (
-            <AttendanceCard
-              item={item}
-              index={index}
-              setAttendanceDetails={setAttendanceDetails}
-              attendanceDetails={attendanceDetails}
-            />
-          )}
-          keyExtractor={(item) => item._id.toString()}
-        />
-      )}
-      <Button
-        my={2}
-        onPress={handleSubmit}
-        variant={"unstyled"}
-        w={wp("92%")}
-        alignSelf={"center"}
-        h={hp("8%")}
-        alignItems={"center"}
-        justifyContent={"center"}
-        bg={colors.primary}
-      >
-        {isLoading ? (
-          <Spinner size="small" color={colors.white} />
+        {getStudentAsFilter?.isLoading && studentData.length !== 0 ? (
+          <Center>
+            <Spinner />
+          </Center>
+        ) : selectedSection === "" ? (
+          <Center>
+            <Text bold my="3" color={colors.primary} fontSize={"lg"}>
+              Please Select All Option
+            </Text>
+          </Center>
         ) : (
-          <Text color={colors.white} fontSize={"lg"} bold>
-            Submit
-          </Text>
+          <FlatList
+            flex={1}
+            mt={"6"}
+            px="3"
+            showsVerticalScrollIndicator={false}
+            bg={colors.primaryLight}
+            borderTopLeftRadius={"30"}
+            borderTopRightRadius={"30"}
+            w="100%"
+            data={studentData}
+            renderItem={({ item, index }) => (
+              <AttendanceCard
+                item={item}
+                index={index}
+                setAttendanceDetails={setAttendanceDetails}
+                attendanceDetails={attendanceDetails}
+              />
+            )}
+            keyExtractor={(item) => item._id.toString()}
+          />
         )}
-      </Button>
+        {studentData.length !== 0 && selectedSection !== "" && (
+          <Button
+            my={2}
+            onPress={handleSubmit}
+            variant={"unstyled"}
+            w={wp("92%")}
+            alignSelf={"center"}
+            h={hp("8%")}
+            alignItems={"center"}
+            justifyContent={"center"}
+            bg={colors.primary}
+          >
+            {isLoading ? (
+              <Spinner size="small" color={colors.white} />
+            ) : (
+              <Text color={colors.white} fontSize={"lg"} bold>
+                Submit
+              </Text>
+            )}
+          </Button>
+        )}
       </ScrollView>
     </Box>
   );

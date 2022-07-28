@@ -10,11 +10,14 @@ import bgCardLighterColor from "../../../../theme/bgCardLighterColor";
 import bgCardColor from "../../../../theme/bgCardColor";
 import colors from "../../../../theme/colors";
 import baseURL from "../../../../utils/baseURL";
+import { useNavigation } from "@react-navigation/native";
 
 export default function EvaluationCard({ item, index }) {
   const { title, dateOfHomework, dateOfSubmission, details, attachmentFile } =
     item;
-  const [modalVisible, setModalVisible] = React.useState(false);
+    const navigation = useNavigation();
+    let file = baseURL + "/homeWorkAttachFile/" + attachmentFile;
+ 
   return (
     <Box
       w={wp("90%")}
@@ -48,50 +51,20 @@ export default function EvaluationCard({ item, index }) {
           Details : {details}
         </Text>
         <Button
-          onPress={() => setModalVisible(true)}
-          my="2"
-          bg={colors.primary}
-        >
-          <Text fontSize="md" bold color={colors.white}>
-            View Attachment
-          </Text>
-        </Button>
-      </VStack>
-      <Modal
-        isOpen={modalVisible}
-        onClose={() => setModalVisible(false)}
-        avoidKeyboard
-        justifyContent="center"
-        bottom="-10"
-        size="xl"
+        onPress={() =>
+          navigation.navigate("ViewAttachment", {
+           file,
+          })
+        }
+        my="2"
+        bg={bgCardColor[index]}
       >
-        <Modal.Content>
-          <Modal.CloseButton />
-          <Modal.Header bold>View Attach File</Modal.Header>
-          <Modal.Body>
-            <Image
-              alt={"homeWorkAttachFile"}
-              source={{ uri: baseURL + "/homeWorkAttachFile/" + attachmentFile }}
-              style={{
-                width: wp("90%"),
-                height: hp("60%"),
-                alignSelf: "center",
-                resizeMode: "contain",
-              }}
-            />
-          </Modal.Body>
-          <Modal.Footer>
-            <Button
-              flex="1"
-              onPress={() => {
-                setModalVisible(false);
-              }}
-            >
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal.Content>
-      </Modal>
+        <Text fontSize="md" bold color={colors.white}>
+          View Attachment
+        </Text>
+      </Button>
+      </VStack>
+     
     </Box>
   );
 }

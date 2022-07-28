@@ -1,6 +1,7 @@
 import moment from "moment";
 const getTeacherAttendanceData = (attendances = []) => {
   const markedDates = {};
+
   attendances.forEach((attendance) => {
     const date = attendance.date;
     const formattedDate = moment(date, "DD-MM-YYYY").format("YYYY-MM-DD");

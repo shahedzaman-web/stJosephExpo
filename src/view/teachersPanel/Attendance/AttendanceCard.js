@@ -24,12 +24,11 @@ const AttendanceCard = ({
   });
   return (
     <Box
-      my="3"
+      my="2"
       p="2"
       justifyContent={"center"}
       mx="auto"
       w={wp("92%")}
-      h={hp("20%")}
       alignSelf="center"
       borderRadius={"md"}
       borderLeftWidth={"10"}

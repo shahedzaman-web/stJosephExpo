@@ -42,7 +42,7 @@ const Academic = () => {
   const getClassWiseSection = useGetClassWiseSectionQuery({
     classId: selectedClass,
   });
-  const { data} = useGetTeacherScheduleListQuery({
+  const { data } = useGetTeacherScheduleListQuery({
     branchName: userInfo.branch.branchName,
     branchId: userInfo.branch._id,
     sessionId: selectedSession,
@@ -215,20 +215,28 @@ const Academic = () => {
           </Select>
         </HStack>
       </Box>
-
-      <FlatList
-      mt="4"
-        justifySelf={"center"}
-        data={classScheduleData}
-        renderItem={({ item, index }) => (
-          <AcademicCard data={item} index={index} />
-        )}
-        keyExtractor={(item) => item._id}
-        showsVerticalScrollIndicator={false}
-        borderTopLeftRadius={30}
-        borderTopRightRadius={30}
-        bg={colors.primaryLight}
-      />
+      {classScheduleData.length === 0 && selectedDay !== "" && (
+        <Box mt="4" w={wp("100%")} justifyContent="center" alignItems="center">
+          <Text bold fontSize={"lg"} color={colors.primary}>
+            No Class Schedule Found!
+          </Text>
+        </Box>
+      )}
+      {classScheduleData.length !== 0 && (
+        <FlatList
+          mt="4"
+          justifySelf={"center"}
+          data={classScheduleData}
+          renderItem={({ item, index }) => (
+            <AcademicCard data={item} index={index} />
+          )}
+          keyExtractor={(item) => item._id}
+          showsVerticalScrollIndicator={false}
+          borderTopLeftRadius={30}
+          borderTopRightRadius={30}
+          bg={colors.primaryLight}
+        />
+      )}
     </Box>
   );
 };

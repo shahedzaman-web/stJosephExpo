@@ -161,7 +161,7 @@ const teacherApi = appApi.injectEndpoints({
     getAllHall: builder.query({
       query: (data) => {
         const { branchId } = data;
-        console.log({ data });
+    
         return {
           url: `/getAllHall?page=1&limit=25&search=&branchId=${branchId}`,
           method: "GET",

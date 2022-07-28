@@ -247,7 +247,7 @@ export default function StudentReport() {
           )}
         </HStack>
         {isLoading ? (
-          <Skeleton style={{ width: wp("100%") }} text />
+          <Skeleton style={{ width: wp("100%"), height: hp("50%") }} text />
         ) : (
           <Box w="100%" my="3">
             <Calendar
