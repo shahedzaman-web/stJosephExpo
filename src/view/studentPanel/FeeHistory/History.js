@@ -36,7 +36,7 @@ export default function History() {
       data.length !== 0 && setPaymentData(data[0].data);
     }
   }, [data]);
-
+console.log("data",data)
   return (
     <Box flex={1} safeArea>
       <HStack p="2" justifyContent={"space-between"} alignItems={"center"}>
@@ -87,7 +87,25 @@ export default function History() {
         </Modal.Content>
       </Modal>
 
-      <FlatList
+{   paymentData.length === 0 && date !== ""  ?(
+          <Box 
+          flex={"1"}
+        
+           bg={colors.primaryLight}
+        borderTopLeftRadius={"30"}
+        borderTopRightRadius={"30"}
+        mt={"6"}
+          >
+            <Text 
+            bold
+            fontSize="lg" 
+            color={colors.primary}
+            textAlign={"center"}
+            mt={"6"}
+            >No Data Found</Text>
+          </Box>
+        ) : (
+     <FlatList
         showsVerticalScrollIndicator={false}
         bg={colors.primaryLight}
         borderTopLeftRadius={"30"}
@@ -99,6 +117,7 @@ export default function History() {
         )}
         keyExtractor={(item) => item._id}
       />
+    )}
     </Box>
   );
 }

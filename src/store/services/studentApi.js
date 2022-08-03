@@ -43,7 +43,7 @@ const studentApi = appApi.injectEndpoints({
           sectionId,
         } = data;
         return {
-          url: `/getClassScheduleList?page=1&limit=1&branchName=${branchName}&branchId=${branchId}&sessionName=${sessionName}&sessionId=${sessionId}&classId=${classId}&sectionId=${sectionId}`,
+          url: `/getClassScheduleList?page=1&limit=50&branchName=${branchName}&branchId=${branchId}&sessionName=${sessionName}&sessionId=${sessionId}&classId=${classId}&sectionId=${sectionId}`,
           method: "GET",
           validateStatus: (response, result) =>
             response.status === 200 && !result.isError, // Our tricky API always returns a 200, but sets an `isError` property when there is an error.
@@ -135,7 +135,7 @@ const studentApi = appApi.injectEndpoints({
           studentId,
         } = data;
         return {
-          url: `/getHomeWorkStudent?page=1&limit=1&branchName=${branchName}&branchId=${branchId}&sessionName=${sessionName}&sessionId=${sessionId}&classId=${classId}&sectionId=${sectionId}&subjectId=${subjectId}&studentId=${studentId}`,
+          url: `/getHomeWorkStudent?page=1&limit=50&search=&branchName=${branchName}&branchId=${branchId}&sessionName=${sessionName}&sessionId=${sessionId}&classId=${classId}&sectionId=${sectionId}&subjectId=${subjectId}&studentId=${studentId}`,
           method: "GET",
           validateStatus: (response, result) =>
             response.status === 200 && !result.isError, // Our tricky API always returns a 200, but sets an `isError` property when there is an error.
@@ -146,7 +146,7 @@ const studentApi = appApi.injectEndpoints({
       query: (data) => {
         const { classId, branchId } = data;
         return {
-          url: `/getStudentEvent?page=1&limit=25&search=&branchId=${branchId}&classId=${classId}`,
+          url: `/getStudentEvent?page=1&limit=50&search=&branchId=${branchId}&classId=${classId}`,
           method: "GET",
           validateStatus: (response, result) =>
             response.status === 200 && !result.isError, // Our tricky API always returns a 200, but sets an `isError` property when there is an error.

@@ -18,6 +18,7 @@ import { useSelector } from "react-redux";
 export default function ExamHeader({
   setExamSchedule,
   setExamMarksData,
+  setIsScheduleEmpty,
   type,
 }) {
   const [selectedSession, setSelectedSession] = React.useState("");
@@ -100,6 +101,11 @@ export default function ExamHeader({
         getExamScheduleListForTeacher?.data[0]?.data[0]?.examSchedule
       );
     }
+    else if (  getExamScheduleListForTeacher?.data !== undefined &&
+      getExamScheduleListForTeacher?.data[0]?.data[0]?.examSchedule?.length ===0 && type === "Marks") {
+      setIsScheduleEmpty(true);
+    }
+
   }, [getExamScheduleListForTeacher?.data]);
   React.useEffect(() => {
     if (getBranchSessionWiseExamList?.data !== undefined) {

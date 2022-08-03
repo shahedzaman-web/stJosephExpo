@@ -83,23 +83,12 @@ const Marks = () => {
       const filterData = examMarks?.data?.filter(
         (item) => item.exam._id === selectedExam
       );
-    
+
       if (filterData !== undefined) {
         setResultData(filterData[0]?.marks);
       }
     }
   }, [selectedExam, selectedSubject, examMarks]);
-  if (isLoading) {
-    return (
-      <Center>
-        <Skeleton my="2" w={wp("80%")} text />
-        <Skeleton my="2" w={wp("80%")} text />
-        <Skeleton my="2" w={wp("80%")} text />
-        <Skeleton my="2" w={wp("80%")} text />
-        <Skeleton my="2" w={wp("80%")} text />
-      </Center>
-    );
-  }
 
   return (
     <Box flex={1} color={colors.white}>
@@ -130,7 +119,6 @@ const Marks = () => {
               <Select.Item label={item.label} value={item.value} />
             ))}
           </Select>
-         
         </HStack>
         <HStack
           space={6}
@@ -160,23 +148,57 @@ const Marks = () => {
           </Select>
         </HStack>
       </Box>
-      <FlatList
-        bg={colors.primaryLight}
-        py="3"
-        pb="5"
-        showsVerticalScrollIndicator={false}
-        borderTopLeftRadius={"30"}
-        borderTopRightRadius={"30"}
-        contentContainerStyle={{ paddingBottom: 20 }}
-        data={resultData}
-        renderItem={({ item, index }) => (
-          <MarksCard item={item} index={index} />
-        )}
-        keyExtractor={(item) => item.subject}
-      />
+      {isLoading ? (
+        <Box
+          flex={1}
+          mt={"6"}
+          bg={colors.primaryLight}
+          borderTopLeftRadius={"30"}
+          borderTopRightRadius={"30"}
+        >
+          <Center my="5">
+            <Skeleton w={wp("80%")} h={hp("30%")} />
+          </Center>
+          <Center my="5">
+            <Skeleton w={wp("80%")} h={hp("30%")} />
+          </Center>
+        </Box>
+      ) : (
+        <>
+          {resultData.length === 0 ? (
+            <Box
+              flex={1}
+              mt={"6"}
+              bg={colors.primaryLight}
+              borderTopLeftRadius={"30"}
+              borderTopRightRadius={"30"}
+            >
+              <Center my="5">
+                <Text bold color={colors.primary}>
+                  No Data Found
+                </Text>
+              </Center>
+            </Box>
+          ) : (
+            <FlatList
+              bg={colors.primaryLight}
+              py="3"
+              pb="5"
+              showsVerticalScrollIndicator={false}
+              borderTopLeftRadius={"30"}
+              borderTopRightRadius={"30"}
+              contentContainerStyle={{ paddingBottom: 20 }}
+              data={resultData}
+              renderItem={({ item, index }) => (
+                <MarksCard item={item} index={index} />
+              )}
+              keyExtractor={(item) => item.subject}
+            />
+          )}
+        </>
+      )}
     </Box>
   );
 };
 
 export default Marks;
-

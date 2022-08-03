@@ -1,7 +1,6 @@
 import React from "react";
 import { useSslRequestQuery } from "../../../store/services/studentApi";
 import { Box, Button, Center, HStack, Image, Text } from "native-base";
-
 import colors from "../../../theme/colors";
 import { WebView } from "react-native-webview";
 import {
@@ -13,16 +12,16 @@ import { useNavigation } from "@react-navigation/native";
 export default function OnlinePayment({ route }) {
   const { payload } = route.params;
   const { isLoading, data, error } = useSslRequestQuery(payload);
- 
+
   const navigation = useNavigation();
   const handleWebViewNavigationStateChange = (e) => {
     let url = e.title;
 
-    if (url.includes("https://admin.sjs.edu.bd/paymentSuccess")) {
+    if (url.includes(baseURL + "/paymentSuccess")) {
       navigation.replace("Success");
-    } else if (url.includes("https://admin.sjs.edu.bd/paymentFailed")) {
+    } else if (url.includes(baseURL + "/paymentFailed")) {
       navigation.replace("Failed");
-    } else if (url.includes("https://admin.sjs.edu.bd/paymentCancel")) {
+    } else if (url.includes(baseURL + "/paymentCancel")) {
       navigation.replace("Cancel");
     } else {
       return;

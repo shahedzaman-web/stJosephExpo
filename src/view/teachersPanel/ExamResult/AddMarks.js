@@ -14,11 +14,10 @@ export default function AddMarks() {
   const [studentData, setStudentData] = React.useState([]);
   const [examScheduleData, setExamScheduleData] = React.useState([]);
   const [isExamScheduleDataEmpty, setIsExamScheduleDataEmpty] =
-    React.useState(true);
+    React.useState(false);
   const [getSubmitData, setGetSubmitData] = React.useState({});
-  const [addSubjectWiseMarks, {isLoading}] = useAddSubjectWiseMarksMutation();
-
-
+  const [addSubjectWiseMarks, { isLoading }] = useAddSubjectWiseMarksMutation();
+  console.log({ isExamScheduleDataEmpty });
   const handleSubmit = async () => {
     try {
       const payload = {
@@ -59,13 +58,12 @@ export default function AddMarks() {
           setIsExamScheduleDataEmpty={setIsExamScheduleDataEmpty}
           type="AddMarks"
         />
-        {isExamScheduleDataEmpty && (
+        {isExamScheduleDataEmpty  && studentData.length === 0 ? (
           <Box flex={"1"} justifyContent={"center"} alignItems={"center"}>
             <Text>No Data Found</Text>
           </Box>
-        )}
-        <>
-          {!isExamScheduleDataEmpty && (
+        ) : (
+          <>
             <FlatList
               contentContainerStyle={{ paddingBottom: "2%" }}
               mt="6"
@@ -86,27 +84,28 @@ export default function AddMarks() {
               )}
               keyExtractor={(item) => item.subject}
             />
-          )}
-        </>
-        <Button
-          my={2}
-          onPress={handleSubmit}
-          variant={"unstyled"}
-          w={wp("92%")}
-          alignSelf={"center"}
-          h={hp("8%")}
-          alignItems={"center"}
-          justifyContent={"center"}
-          bg={colors.primary}
-        >
-          {isLoading ? (
-            <Spinner size="small" color={colors.white} />
-          ) : (
-            <Text color={colors.white} fontSize={"lg"} bold>
-              Submit
-            </Text>
-          )}
-        </Button>
+
+            <Button
+              my={2}
+              onPress={handleSubmit}
+              variant={"unstyled"}
+              w={wp("92%")}
+              alignSelf={"center"}
+              h={hp("8%")}
+              alignItems={"center"}
+              justifyContent={"center"}
+              bg={colors.primary}
+            >
+              {isLoading ? (
+                <Spinner size="small" color={colors.white} />
+              ) : (
+                <Text color={colors.white} fontSize={"lg"} bold>
+                  Submit
+                </Text>
+              )}
+            </Button>
+          </>
+        )}
       </ScrollView>
     </Box>
   );

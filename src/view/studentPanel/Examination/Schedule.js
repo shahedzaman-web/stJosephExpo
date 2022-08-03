@@ -9,7 +9,10 @@ import {
   Text,
 } from "native-base";
 import React from "react";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 import { useSelector } from "react-redux";
 import { StyleSheet } from "react-native";
 import {
@@ -49,7 +52,7 @@ const Schedule = () => {
       setExamDropdownData(res);
     }
   }, [data]);
- 
+
   React.useEffect(() => {
     if (selected !== "" && res?.data) {
       const examSchedule = res?.data[0].examSchedule;
@@ -57,18 +60,6 @@ const Schedule = () => {
       setResData(examSchedule);
     }
   }, [res?.data, selected]);
-
-  if (isLoading) {
-    return (
-      <Center>
-        <Skeleton my="2" w={wp("80%")} text />
-        <Skeleton my="2" w={wp("80%")} text />
-        <Skeleton my="2" w={wp("80%")} text />
-        <Skeleton my="2" w={wp("80%")} text />
-        <Skeleton my="2" w={wp("80%")} text />
-      </Center>
-    );
-  }
 
   return (
     <Box flex={1} bg={colors.white}>
@@ -101,19 +92,58 @@ const Schedule = () => {
           </Select>
         </HStack>
       </Box>
-      <FlatList
-        bg={colors.primaryLight}
-        py="2"
-        showsVerticalScrollIndicator={false}
-        borderTopLeftRadius={"30"}
-        borderTopRightRadius={"30"}
-        data={resData}
-        renderItem={({ item, index }) => (
-          <ScheduleCard item={item} index={index} />
-        )}
-        keyExtractor={(item) => item.subject}
-        contentContainerStyle={{ paddingBottom: 20 }}
-      />
+      {isLoading ? (
+        <Box
+          flex={1}
+          mt={"2"}
+          bg={colors.primaryLight}
+          borderTopLeftRadius={"30"}
+          borderTopRightRadius={"30"}
+        >
+          <Center>
+            <Skeleton my="2" w={wp("80%")} h={hp("30%")} />
+          </Center>
+          <Center>
+            <Skeleton my="2" w={wp("80%")} h={hp("30%")} />
+          </Center>
+        </Box>
+      ) : (
+        <>
+          {resData.length === 0 ? (
+            <Box
+              flex={1}
+              mt={"2"}
+              bg={colors.primaryLight}
+              borderTopLeftRadius={"30"}
+              borderTopRightRadius={"30"}
+            >
+              <Center 
+              mt="3"
+              >
+                <Text
+                fontSize={"lg"}
+                 bold color={colors.primary}>
+                  No Schedule Found!
+                </Text>
+              </Center>
+            </Box>
+          ) : (
+            <FlatList
+              bg={colors.primaryLight}
+              py="2"
+              showsVerticalScrollIndicator={false}
+              borderTopLeftRadius={"30"}
+              borderTopRightRadius={"30"}
+              data={resData}
+              renderItem={({ item, index }) => (
+                <ScheduleCard item={item} index={index} />
+              )}
+              keyExtractor={(item) => item.subject}
+              contentContainerStyle={{ paddingBottom: 20 }}
+            />
+          )}
+        </>
+      )}
     </Box>
   );
 };

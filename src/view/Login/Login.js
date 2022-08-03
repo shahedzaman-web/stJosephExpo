@@ -56,8 +56,9 @@ const Login = ({ navigation }) => {
         let branchName = branchData.find((item) => item.value === selectBranch);
    
         if (value === "student") {
+
           payload = {
-            branchName: branchName.label,
+            branchName: branchName?.label,
             branchId: selectBranch,
             userType: value,
             userId: registerNumber,
@@ -94,9 +95,10 @@ const Login = ({ navigation }) => {
           setIsLoading(false);
         }
       } catch (e) {
+     
         Toast.show({
           type: "error",
-          text1: e,
+          text1: "Something went wrong!",
         });
         setIsLoading(false);
         console.log(e);
@@ -269,7 +271,15 @@ const Login = ({ navigation }) => {
                 "LOGIN"
               )}
             </Button>
-            <Button
+            <Text
+            textAlign="center"
+            fontSize="sm"
+            color={colors.primary}
+            mt="2"
+            >
+              version 1.0.0
+            </Text>
+            {/* <Button
               mt="2"
               variant={"unstyled"}
               _text={{
@@ -281,7 +291,7 @@ const Login = ({ navigation }) => {
               h="12"
             >
               Forgot Password?
-            </Button>
+            </Button> */}
           </VStack>
         </Box>
       </TouchableWithoutFeedback>

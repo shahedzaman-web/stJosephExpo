@@ -1,5 +1,6 @@
 import {
   Box,
+  Center,
   CheckIcon,
   FlatList,
   HStack,
@@ -197,20 +198,46 @@ const StudentDetails = () => {
           </HStack>
         </Box>
       </Box>
-      <FlatList
-        mt={"6"}
-        px="3"
-        showsVerticalScrollIndicator={false}
-        bg={colors.primaryLight}
-        borderTopLeftRadius={"30"}
-        borderTopRightRadius={"30"}
-        w="100%"
-        data={studentData}
-        renderItem={({ item, index }) => (
-          <StudentCard item={item} index={index} />
-        )}
-        keyExtractor={(item) => item.name}
-      />
+      {getAllStudent?.isLoading ? (
+        <Box
+          flex={"1"}
+          mt={"6"}
+          px="3"
+          bg={colors.primaryLight}
+          borderTopLeftRadius={"30"}
+          borderTopRightRadius={"30"}
+          w="100%"
+        >
+          <Center my="3">
+            <Skeleton
+              style={{
+                width: wp("90%"),
+                height: hp("25%"),
+               
+              }}
+              text
+            />
+          </Center>
+          <Center my="3">
+            <Skeleton style={{ width: wp("90%"), height: hp("25%") }} text />
+          </Center>
+        </Box>
+      ) : (
+        <FlatList
+          mt={"6"}
+          px="3"
+          showsVerticalScrollIndicator={false}
+          bg={colors.primaryLight}
+          borderTopLeftRadius={"30"}
+          borderTopRightRadius={"30"}
+          w="100%"
+          data={studentData}
+          renderItem={({ item, index }) => (
+            <StudentCard item={item} index={index} />
+          )}
+          keyExtractor={(item) => item.name}
+        />
+      )}
     </Box>
   );
 };

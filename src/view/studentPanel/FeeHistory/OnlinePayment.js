@@ -90,6 +90,8 @@ export default function OnlinePayment() {
     navigation.navigate("OnlinePayment", {
       payload,
     });
+    setDate("");
+    getFeesSetupForCollection.refetch();
   };
 
   return (

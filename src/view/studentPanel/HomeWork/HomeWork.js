@@ -32,6 +32,7 @@ const HomeWork = () => {
     sessionName: userInfo.session.sessionName,
     sessionId: userInfo.session._id,
   });
+ 
   const getHomeWork = useGetAllHomeworkEvaluationForStudentQuery({
     branchName: userInfo.branch.branchName,
     branchId: userInfo.branch._id,
@@ -42,7 +43,7 @@ const HomeWork = () => {
     subjectId: selectedSubject,
     studentId: userInfo._id,
   });
-//console.log("getHomeWork=============>",getHomeWork?.data?.data)
+
   return (
     <Box flex={1} safeArea>
       <AppHeader title="Home Work" />
@@ -79,33 +80,57 @@ const HomeWork = () => {
           </Select>
         </HStack>
       </Box>
-      {
-        isLoading ? ( 
-          <Center safeArea>
-        <Skeleton w={wp("80%")} h={hp("5%")} />
-        <Skeleton w={wp("80%")} h={hp("5%")} />
-        <Skeleton w={wp("80%")} h={hp("5%")} />
-        <Skeleton w={wp("80%")} h={hp("5%")} />
-        <Skeleton w={wp("80%")} h={hp("5%")} />
-      </Center>
-        )
-      : (
-      <FlatList
-        mt={"2"}
-        data={getHomeWork?.data?.data}
-        renderItem={({ item, index }) => (
-          <HomeWorkCard
-            homework={item}
-           
-            index={index}
-          />
-        )}
-        keyExtractor={(index) => index.toString()}
-        showsVerticalScrollIndicator={false}
-        bg={colors.primaryLight}
-        borderTopLeftRadius={"30"}
-        borderTopRightRadius={"30"}
-      />)}
+      {isLoading ? (
+        <Box
+          mt={"2"}
+          flex={"1"}
+          bg={colors.primaryLight}
+          borderTopLeftRadius={"30"}
+          borderTopRightRadius={"30"}
+        >
+          <Center my="3">
+            <Skeleton w={wp("90%")} h={hp("30%")} />
+          </Center>
+          <Center my="3">
+            <Skeleton w={wp("90%")} h={hp("30%")} />
+          </Center>
+        </Box>
+      ) : (
+        <>
+          {getHomeWork?.data?.length === 0 ? (
+            <Box
+              flex={"1"}
+              mt={"2"}
+              bg={colors.primaryLight}
+              borderTopLeftRadius={"30"}
+              borderTopRightRadius={"30"}
+            >
+              <Text
+                bold
+                fontSize="lg"
+                textAlign={"center"}
+                mt="3"
+                color={colors.primary}
+              >
+                No Home Work Found
+              </Text>
+            </Box>
+          ) : (
+            <FlatList
+              mt={"2"}
+              data={getHomeWork?.data?.data}
+              renderItem={({ item, index }) => (
+                <HomeWorkCard homework={item} index={index} />
+              )}
+              keyExtractor={(index) => index.toString()}
+              showsVerticalScrollIndicator={false}
+              bg={colors.primaryLight}
+              borderTopLeftRadius={"30"}
+              borderTopRightRadius={"30"}
+            />
+          )}
+        </>
+      )}
     </Box>
   );
 };

@@ -1,2 +1,2 @@
-const baseURL = 'http://154.12.229.20:4000';
+const baseURL = 'https://portal.sjs.edu.bd';
 export default baseURL;

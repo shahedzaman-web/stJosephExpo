@@ -216,8 +216,16 @@ const Academic = () => {
         </HStack>
       </Box>
       {classScheduleData.length === 0 && selectedDay !== "" && (
-        <Box mt="4" w={wp("100%")} justifyContent="center" alignItems="center">
-          <Text bold fontSize={"lg"} color={colors.primary}>
+        <Box
+          flex={"1"}
+          borderTopLeftRadius={30}
+          borderTopRightRadius={30}
+          bg={colors.primaryLight}
+          mt="4"
+          w={wp("100%")}
+          alignItems="center"
+        >
+          <Text mt="4" bold fontSize={"lg"} color={colors.primary}>
             No Class Schedule Found!
           </Text>
         </Box>

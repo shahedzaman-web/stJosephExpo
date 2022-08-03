@@ -18,6 +18,7 @@ import {
 import { useSelector } from "react-redux";
 export default function ExamHeader({
   setExamMarksData,
+  setIsMarksEmpty,
   type,
   setStudentData,
   setExamScheduleData,
@@ -110,7 +111,7 @@ export default function ExamHeader({
       ) {
         setIsExamScheduleDataEmpty(false);
         setExamScheduleData(getFilterWiseExamSchedule.data[0].examSchedule[0]);
-      } else {
+      } else if (getFilterWiseExamSchedule.data !== undefined && type === "AddMarks" && getFilterWiseExamSchedule?.data[0]?.examSchedule[0]?.length === 0) {
         setIsExamScheduleDataEmpty(true);
         setExamScheduleData([]);
       }
@@ -170,6 +171,9 @@ export default function ExamHeader({
   React.useEffect(() => {
     if (getFilterWiseExamMarks?.data !== undefined && type === "Marks") {
       setExamMarksData(getFilterWiseExamMarks?.data[0]?.marks);
+    }
+    else if(getFilterWiseExamMarks?.data !== undefined && type === "Marks" && getFilterWiseExamMarks?.data[0]?.marks.length === 0){
+      setIsMarksEmpty(true);
     }
   }, [getFilterWiseExamMarks?.data]);
 

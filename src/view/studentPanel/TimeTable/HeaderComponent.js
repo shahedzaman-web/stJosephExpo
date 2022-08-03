@@ -33,8 +33,7 @@ const HeaderComponent = ({userInfo, totalClass}) => {
               </Text>
             </Box>
           </HStack>
-        </HStack>
-            
+        </HStack>   
         <Box
           py="2"
           bg={colors.primaryLight}

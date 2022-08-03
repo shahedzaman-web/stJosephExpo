@@ -1,12 +1,12 @@
 import baseURL from "./baseURL";
 const url = {
-  baseURL: "",
+  baseURL: "https://admin.sjs.edu.bd",
   studentProfilePicture: `${baseURL}/studentProfile`,
   teacherProfilePicture: `${baseURL}/employeeProfile`,
   academicAttachmentLink: `${baseURL}/academicAttachment`,
   depositAttachmentLink: `${baseURL}/depositAttachment`,
   expenseAttachmentLink: `${baseURL}/expenseAttachment`,
-  homeWorkAttachmentLink: `${baseURL}/homeWorkAttachFile/`,
+  homeWorkAttachmentLink: `${baseURL}/homeWorkAttachFile`,
 };
 
 export default url;

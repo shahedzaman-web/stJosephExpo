@@ -13,7 +13,7 @@ import {
   useGetSessionWiseClassQuery,
 } from "../../../../store/services/teacherApi";
 import { useSelector } from "react-redux";
-export default function EvaluationHeader({ setHomeworkData }) {
+export default function EvaluationHeader({ setHomeworkData,setIsHomeWorkEmpty }) {
   const [selectedSession, setSelectedSession] = React.useState("");
   const [selectedClass, setSelectedClass] = React.useState("");
   const [sessionName, setSessionName] = React.useState("");
@@ -53,6 +53,9 @@ export default function EvaluationHeader({ setHomeworkData }) {
   React.useEffect(() => {
     if (getHomeWorks.data !== undefined) {
       setHomeworkData(getHomeWorks.data.data);
+    }
+     else if( getHomeWorks.data !== undefined && getHomeWorks.data.data.length===0){
+      setIsHomeWorkEmpty(true)
     }
   }, [getHomeWorks.data]);
 
